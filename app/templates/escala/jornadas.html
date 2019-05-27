@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block menu_escalas_active %}active{% endblock %}
+
+
+{% set jornadas = resultado.entidades %}
+
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Jornadas<h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam
+              aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas
+              voluptatum?
+            </p>
+        </div>
+        
+        <div class="row d-flex align-items-baseline">
+          <div class="col">
+            <h5 class="h4 mb-0">Consulta</h5>
+          </div>
+          <div class="col ">
+            <a class="btn btn-primary float-right" href="{{ url_for('bp_escala.escalas') }}">VOLTAR</a>
+            <a class="btn btn-success float-right mx-2" href="{{ url_for('bp_escala.cadastrar_jornada', operacao='PRE-SALVAR') }}">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR</a>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-pendencia">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for="id-nome-pendencia">Nome da pendência:</label>
+                <input type="text" class="form-control" id="id-nome-pendencia" placeholder="Insirá o nome da pendencia">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for="id-codigo-jornada">Código</label>
+                <input type="text" class="form-control" name="codigo-jornada" id="id-codigo-jornada" placeholder="">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for="id-status-func">Status</label>
+                <input class="form-control" list="id-status-func" name="status-func">
+                <datalist id="id-status-func">
+                  <option value="Ativo">
+                  <option value="Inativo">
+                </datalist>
+              </div>
+            </div>
+          </div><!-- row1-formulario-pendencia primeira linha do formulário de pendencia -->
+          
+          <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+            Filtrar</button>
+          <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+            Limpar</button>
+        </form>
+        <!-- fim form consulta pendencia -->
+
+
+        <div class="preview-funcionarios my-5">
+          <div class="funcionarios mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="funcionariosCollapse">
+              <h5 class="h4" id="id-titulo-resultado">Resultado</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <div class="rounded shadow">
+              <div class="card border-0 pb-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse" role="button"
+                  aria-expanded="false" aria-controls="funcionariosCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE JORNADAS</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="align-middle text-center">AÇÕES</th>
+                            <th class="align-middle text-center">Código</th>
+                            <th class="align-middle text-center">Nome da jornada</th>
+                            <th class="align-middle text-center">Carga horária</th>
+                            <th class="align-middle text-center">Min. MPTO</th>
+                            <th class="align-middle text-center">Max. dias</th>                            
+                            <th class="align-middle text-center">Interv. min.</th>                           
+                            <th class="align-middle text-center">Período max.</th>                           
+                            <th class="align-middle text-center">Status</th>                            
+                            <th class="align-middle text-center">Descrição</th>                            
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {% for jornada in jornadas %}
+                          <tr>                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="{{ url_for('bp_escala.atualizar_jornada', txt_jornada_id=jornada.id, operacao='PRE-ATUALIZAR') }}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                              <a class="btn btn-danger" href="{{ url_for('bp_escala.excluir_jornada', txt_jornada_id=jornada.id, operacao='PRE-EXCLUIR') }}">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="text-center align-middle">{{ jornada.codigo|e }}</td>
+                            <td class="text-center text-nowrap align-middle"><a href="#id-titulo-resultado">{{ jornada.nome|e }}</a></td>
+                            <td class="text-center align-middle">{{ jornada.carga_horaria|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.quantidade_minima_mpto|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.quantidade_maxima_dias|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.intervalo_minimo|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.limite_max_horas_periodo|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.status.nome|e }}</td>
+                            <td class="text-center align-middle">{{ jornada.descricao|e }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="10">
+                              <nav aria-label="Page navigation example">
+                                <ul class="pagination d-flex justify-content-center mt-2 mb-0">
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Previous</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Next</a></li>
+                                </ul>
+                              </nav>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

@@ -1,0 +1,597 @@
+{% extends "base.html" %} 
+
+{% block menu_func_active %}active{% endblock %} 
+
+{% if resultado.entidades[-1] %}
+    {% set funcionario = resultado.entidades[-1] %}
+{% endif %}
+
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+  <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+    <h1 class="display-4">Alterar Cadastro de Funcionário<h1>
+        <p class="lead text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident
+          ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores corporis.
+        </p>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %} 
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+  
+{%block conteudo %}
+<div class="container conteudo">
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados gerais de identificação</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right" id="id-voltar" href="{{ url_for('bp_funcionario.funcionarios') }}#consulta">VOLTAR</a>
+    </div>
+  </div>
+  <!-- <h5 class="h4">Dados gerais de identificação</h5> -->
+  <div class="dropdown-divider"></div>
+  
+  <div class="rounded shadow bg-white px-3 py-3">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-foto-func">Foto</label>
+            <input type="file" class="form-control-file" name="foto-func" id="id-foto-func" placeholder=""
+              aria-describedby="fileHelpId">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-cadastro-func">Data do cadastro</label>
+            <input hidden type="text" class="form-control" name="data-cadastro-func" id="id-data-cadastro-func"
+              {% if funcionario.dataCadastro %} value="{{ funcionario.dataCadastro.strftime('%d/%m/%Y')}}" {% endif %}>
+            <input disabled type="text" class="form-control" {% if funcionario.dataCadastro %} value="{{ funcionario.dataCadastro.strftime('%d/%m/%Y')}}" {% endif %}>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-funcionario-status">Status *</label>
+            <select class="form-control" name="txt-funcionario-status" id="txt-funcionario-status">
+              <option value=""></option>
+              {% for status_func in funcionario._lista_status %}
+                {% if funcionario._status.nome|e == status_func.nome|e %}
+                  <option selected value="{{ status_func.nome }}">{{ status_func.nome|e }}</option>                    
+                {% else %}
+                  <option value="{{ status_func.nome|e }}">{{ status_func.nome|e }}</option>                    
+                {% endif %}                
+              {% endfor %}                                   
+            </select>
+          </div> 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"> 
+          <div class="form-group">
+            <label for="id-cpf-funcionario">CPF *</label>
+            <input type="text" class="form-control" name="cpf-func" 
+            id="id-cpf-funcionario" placeholder="___.___.___-__" value="{{ funcionario.cpf }}"/>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="id-nome-funcionario">Nome *</label>
+            <input type="text" class="form-control" name="nome-func" 
+            id="id-nome-funcionario" aria-describedby="helpId" placeholder="" value="{{ funcionario.nome }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-sexo-func">Sexo *</label>
+            <select class="custom-select" name="sexo-func" id="id-sexo-func">
+              {% if funcionario.sexo == 'masculino' %}
+                <option>Selecione</option>
+                <option selected value="masculino">MASCULINO</option>
+                <option value="feminino">FEMININO</option>
+              {% elif funcionario.sexo == 'feminino' %}
+                <option>Selecione</option>
+                <option value="masculino">MASCULINO</option>
+                <option selected value="feminino">FEMININO</option>
+              {% else %}
+                <option selected>Selecione</option>
+                <option value="masculino">MASCULINO</option>
+                <option value="feminino">FEMININO</option>
+              {% endif %}
+            </select>
+          </div>  
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-nasc-func">Data de Nascimento *</label>
+            <input type="text" class="form-control" name="data-nasc-func" id="id-data-nasc-func"
+              {% if funcionario.dataNascimento %} value="{{ funcionario.dataNascimento.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>       
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-pis-func">PisPasep *</label>
+            <input type="text" class="form-control" name="pis-pasep-func" id="id-pis-func" 
+              aria-describedby="helpId" value="{{ funcionario.pisPasep }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="rg-func">RG *</label>
+            <input type="text" class="form-control" name="rg-func" id="rg-func"
+              aria-describedby="helpId" value="{{ funcionario.rg }}">
+          </div>
+        </div>      
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-email-func">E-mail *</label>
+            <input type="email" class="form-control" name="email-func" 
+            id="id-email-func" aria-describedby="emailHelpId" value="{{ funcionario.email }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-reponsavel-cad-func">Responsável pelo cadastro</label>
+            <input hidden type="text" class="form-control" name="reponsavel-cad-func" id="id-reponsavel-cad-func"
+              aria-describedby="helpId" value="{{ funcionario.responsavelCadastro }}">
+            <input disabled type="text" class="form-control" {% if funcionario.responsavelCadastro %} value="{{ funcionario.responsavelCadastro }}"{% endif %}>
+          </div>
+        </div>
+      </div>
+      <h5 class="h4 mt-3">Dados de contratação *</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-matricula-func">Matricula *</label>
+            <input type="text" class="form-control" name="matricula-func" id="id-matricula-func" aria-describedby="helpId"
+              value="{{ funcionario.matricula }}">
+          </div>
+        </div>
+        <div class="col-6">
+
+          <div class="form-group">
+            <label for="id-cargo-func">Cargo *</label>
+            <select class="form-control" name="cargo-func" id="id-cargo-func">
+              <option value=""></option>
+              {% for cargo in funcionario._lista_cargos %}
+                {% if cargo.nome|e == funcionario.cargo.nome %}
+                    <option selected value="{{ cargo.nome|e }}">{{ cargo.nome|e }}</option>
+                {% else %}
+                    <option value="{{ cargo.nome|e }}">{{ cargo.nome|e }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          {#             
+          <div class="form-group">
+            <label for="id-cargo-func">Cargo *</label>
+            <input type="text" class="form-control" name="cargo-func" 
+            id="id-cargo-func" aria-describedby="helpId" value="{{ funcionario.cargo }}">
+          </div>
+          #}
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-data-admissao-func">Data da admissão *</label>
+            <input type="text" class="form-control" name="data-admissao-func" id="id-data-admissao-func"
+              {% if funcionario.dataAdmissao %} value="{{ funcionario.dataAdmissao.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-lotacao-func">Lotação *</label>
+            <input type="text" class="form-control" name="lotacao-func" 
+            id="id-lotacao-func" aria-describedby="helpId" value="{{ funcionario.lotacao }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-unidade-trabalho-func">Unidade de trabalho *</label>
+            <input type="text" class="form-control" name="unidade-trabalho-func" 
+            id="id-unidade-trabalho-func" aria-describedby="helpId" value="{{funcionario.unidadeDeTrabalho}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-numero-ctps-func">Número CTPS *</label>
+            <input type="text" class="form-control" name="numero-ctps-func" 
+            id="id-numero-ctps-func" aria-describedby="helpId" value="{{ funcionario.numeroCTPS }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-ctps-func">Série CTPS *</label>
+            <input type="text" class="form-control" name="serie-ctps-func" 
+            id="id-ctps-func" aria-describedby="helpId" value="{{ funcionario.serieCTPS }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-uf-ctps-func">UF CTPS *</label>
+            <input type="text" class="form-control" name="uf-ctps-func" 
+            id="id-uf-ctps-func" aria-describedby="helpId" value="{{ funcionario.ufCTPS|e }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-emissao-ctps-func">Data emissão CTPS *</label>
+            <input type="text" class="form-control" name="data-emissao-ctps-func" id="id-data-emissao-ctps-func" 
+              {% if funcionario.dataEmissaoCTPS %} value="{{ funcionario.dataEmissaoCTPS.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-funcionario-tipo_vinvulo">Status *</label>
+            <select class="form-control" name="txt-funcionario-tipo_vinvulo" id="txt-funcionario-tipo_vinvulo">
+              <option value=""></option>
+              {% for vinculo_func in funcionario._lista_tipos_vinculo %}
+              {% if funcionario._tipo_vinculo.nome|e == vinculo_func.nome|e %}
+              <option selected value="{{ vinculo_func.nome }}">{{ vinculo_func.nome|e }}</option>
+              {% else %}
+              <option value="{{ vinculo_func.nome|e }}">{{ vinculo_func.nome|e }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-nome-usuario-func">Nome de usuário *</label>
+            <input type="text" class="form-control" name="nome-usuario-func" id="id-nome-usuario-func" aria-describedby="helpId"
+              value="{{ funcionario.nomeUsuario }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-senha-usuario-func">Senha *</label>
+            <input type="text" class="form-control" name="senha-usuario-func" id="id-senha-usuario-func" aria-describedby="helpId"
+              value="{{ funcionario.senha }}">
+          </div>
+        </div>
+      </div>
+      <div class="row mb-1 d-flex justify-content-end">   
+        <div class="col ">
+          <input type="text" hidden name="funcionario_id" value="{{ funcionario.id }}">
+          <button type="submit" name="operacao" id="id-atualizar" class="btn btn-primary float-right" 
+            formaction="{{ url_for('bp_funcionario.alterar_funcionario') }}" value="ATUALIZAR"><i class="fa fa-save"></i> ATUALIZAR
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+    
+
+  <div class="preview-enderecos my-5" id="preview-enderecos">
+    <div class="enderecos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false" aria-controls="enderecosCollapse">
+
+      <div class="row d-flex align-items-baseline">
+        <div class="col">
+          <h5 class="h4 mb-0" id="id-titulo-enderecos">Endereços</h5>
+        </div>
+        <div class="col ">
+          {# TODO: candidato a ser apagado
+            <a class="btn btn-primary float-right" href="{{ url_for('bp_endereco.cadastrar_endereco',funcionario_id=funcionario.id, operacao='PRE-SALVAR') }}">ADICIONAR</a>
+          #}  
+        </div>
+      </div>    
+      
+      </a>
+
+
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0 ">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#enderecosCollapse" role="button"
+            aria-expanded="false" aria-controls="enderecosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE ENDEREÇOS</h6>
+          </a>
+          <div class="collapse multi-collapse0 show" id="enderecosCollapse">
+            <div class="card-body pb-0">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="">Acões</th>
+                      <th>Tipo</th>
+                      <th>Tipo Logr.</th>
+                      <th>Logradouro</th>
+                      <th>Número</th>
+                      <th colspan="2">Bairro</th>
+                      <th>Cidade</th>
+                      <th>Estado</th>
+                      <th>CEP</th>
+                      <th>Responsável</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    {% for endereco in funcionario._enderecos if endereco._status.nome != 'EXCLUIDO' %}
+                      <tr>
+                        <td class="d-flex justify-content-left">
+                          <a class="btn btn-primary mr-1"
+                            href="{{ url_for('bp_endereco.alterar_endereco', endereco_id=endereco.id, operacao='PRE-ATUALIZAR') }}">
+                            <i class="fa fa-pencil fa-1x"></i></a>
+                          <a class="btn btn-danger" href="{{ url_for('bp_endereco.excluir_endereco', endereco_id=endereco.id, operacao='PRE-EXCLUIR') }}"><i class="fa fa-trash fa-1x"></i></a>
+                        </td>
+                        <td class="align-middle">{{ endereco._tipo_endereco.nome|e }}</td>
+                        <td class="align-middle">{{ endereco._logradouro.tipo_logradouro|e }}</td>
+                        <td class="align-middle text-nowrap">{{ endereco._logradouro.logradouro|e }}</td>
+                        <td class="align-middle">{{ endereco.numero }}</td>
+                        <td colspan="2" class="text-nowrap align-middle">{{ endereco._logradouro.bairro }}</td>
+                        <td class="text-nowrap align-middle">{{ endereco._logradouro.cidade }}</td>
+                        <td class="align-middle">{{ endereco._logradouro.uf }}</td>
+                        <td class="align-middle text-nowrap">{{ endereco._logradouro.cep }}</td>
+                        <td class="align-middle">{{ endereco.responsavel_cadastro }}</td>
+                        <td class="align-middle">{{ endereco._status.nome }}</td>
+                      </tr>
+                    {% else %}
+                      <tr>
+                        <td colspan="12" class="text-center">
+                          <h5>NENHUM ENDEREÇO CADASTRADO PARA ESTE FUNCIONÁRIO!</h5>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="12">
+                       <!-- table tfoot -->
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col my-3">
+                  <a class="btn btn-primary float-right" href="{{ url_for('bp_endereco.cadastrar_endereco',funcionario_id=funcionario.id, operacao='PRE-SALVAR') }}">ADICIONAR</a>
+                </div>
+              </div>  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="preview-contatos my-5">
+    <div class="contatos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse1" role="button" aria-expanded="false"
+        aria-controls="contatosCollapse">
+        <h5 class="h4" id="id-titulo-contatos">Contatos</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#contatosCollapse" role="button"
+            aria-expanded="false" aria-controls="contatosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE CONTATOS</h6>
+          </a>
+          <div class="collapse multi-collapse1 show" id="contatosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="">Acões</th>
+                      <th>Tipo</th>
+                      <th>Telefone</th>
+                      <th>Ramal</th>                      
+                      <th>Observação</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="#"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a class="btn btn-danger " href="#"> <i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+                      </td>                     
+                      <td class="align-middle">Residêncial</td>
+                      <td class="align-middle">(11)4446-1711</td>
+                      <td class="align-middle">171</td>
+                      <td class="text-nowrap align-middle">Falar com Gladstone</td>
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <!-- <a class="btn btn-primary float-right" href="#id-titulo-contatos">Adicionar</a> -->
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col mt-3">
+                  <a class="btn btn-primary float-right" href="#id-titulo-contatos">ADICIONAR</a>
+                </div>
+              </div>             
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="preview-jornada my-5">
+    <div class="jornada mb-5">
+      <a data-toggle="collapse" href=".multi-collapse3" role="button" aria-expanded="false"
+        aria-controls="jornadaCollapse">
+        <h5 class="h4" id="id-titulo-jornadas">Escalas Trabalho</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#jornadaCollapse" role="button" aria-expanded="false"
+            aria-controls="jornadaCollapse">
+            <h6 class="card-header cor-base2 rounded" id="">LISTA DE ESCALAS</h6>
+          </a>
+          <div class="collapse multi-collapse3 show" id="jornadaCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ações</th>
+                      <th>Data Início</th>
+                      <th>Data Fim</th>
+                      <th>Nome da Escala</th>
+                      <th>Status</th>
+                      <th>Data Inclusão</th>
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    {% for atribuicao_escala in funcionario.atribuicao_escala %}
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" 
+                          href="{{ url_for('bp_escala.visualizar_atribuicao_escala', txt_atribuicao_escala=atribuicao_escala.id, operacao='VISUALIZAR') }}">
+                          <i class="fa fa-table fa-1x" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-primary mr-1" 
+                          href="#id-titulo-jornadas">
+                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-danger mr-1" 
+                          href="#id-titulo-jornadas">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                      </td>
+                      <td class="align-middle">{{ atribuicao_escala.data_inicio_formatada }}</td>
+                      <td class="align-middle">{{ atribuicao_escala.data_fim_formatada }}</td>
+                      <td class="align-middle">
+                        <a href="#id-titulo-jornadas"> 
+                          {{ atribuicao_escala.escala.nome|e }}
+                        </a>
+                      </td>
+                      <td class="align-middle">ATIVO</td>
+                      <td class="align-middle">{{ atribuicao_escala.data_cadastro_formatada|e }}</td>
+                      <td class="align-middle">{{ atribuicao_escala.responsavel_cadastro }}</td>
+                    </tr>
+                    {% else %}
+                      <tr>
+                        <td colspan="9" class="text-center">
+                          <h5>NENHUMA ESCALA CADASTRADA PARA ESTE FUNCIONÁRIO</h5>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="9">
+                        <!-- TODO: candidato a ser apagada: <a class="btn btn-primary float-right" href="#id-titulo-jornadas">Adicionar</a> -->
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+               <div class="row">
+                <div class="col mt-3">
+                  <a class="btn btn-primary float-right" href="{{ url_for('bp_escala.salvar_atribuicao_escala', operacao='PRE-SALVAR') }}">ADICIONAR</a>
+                </div>
+              </div>
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="preview-relogios my-5">
+    <div class="relogios mb-5">
+      <a data-toggle="collapse" href=".multi-collapse2" role="button" aria-expanded="false"
+        aria-controls="relogiosCollapse">
+        <h5 class="h4" id="id-titulo-relogios">Relógios</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#relogiosCollapse" role="button"
+            aria-expanded="false" aria-controls="relogiosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE RELÓGIOS</h6>
+          </a>
+          <div class="collapse multi-collapse2 show" id="relogiosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="">Acões</th>
+                      <th>Código</th>
+                      <th>Nome do Relógio</th>
+                      <th>Status</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a class="btn btn-danger" href="#id-titulo-relogios"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                      </td>
+                      <td class="align-middle">123.3652.56</td>
+                      <td class="align-middle">vila do chaves</td>
+                      <td class="align-middle">ATIVO</td>
+                      
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="8">
+                        <!-- <a class="btn btn-primary float-right" href="#id-titulo-relogios">Adicionar</a> -->
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col mt-3">
+                  <a class="btn btn-primary float-right" href="#id-titulo-relogios">ADICIONAR</a>
+                </div>
+              </div>
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+{% endblock %}
+<!-- conteudo -->

@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block menu_func_active %}active{% endblock %}
+
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+  <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+    <h1 class="display-4">Funcionários<h1>
+        <p class="lead"  id="consulta">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam aut
+          sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas voluptatum?
+        </p>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %}
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+    <div class="container conteudo-formulario mb-3">
+        <div class="row">
+          <div class="col-md conteudo-principal">
+            
+            <div class="row d-flex align-items-baseline">
+              <div class="col">
+                <h5 class="h4 mb-0">Consulta</h5>
+              </div>
+              <div class="col "> 
+                <a  class="btn btn-success float-right" id="id_novo_funcionario" href="{{ url_for('bp_funcionario.cadastrar_funcionario', operacao='PRE-SALVAR') }}">
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR
+                </a>
+              </div>
+            </div>
+            
+            <div class="dropdown-divider"></div>
+            <form name="formulario" class="cor-base2 p-3 rounded" action="{{ url_for('bp_funcionario.funcionarios') }}" method="GET">
+              <div class="row row1-formulario-consulta">
+                <div class="col-lg-7">
+                  <div class="form-group">
+                    <label for="id-nome-funcionario" >Nome do Funcionário:</label>
+                    <input type="text" class="form-control" id="id-nome-funcionario" name="nome-func"
+                      placeholder="Insirá o nome do funcionário">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label for="id-numero-matricula">Matricula:</label>
+                    <input type="number" class="form-control" name="matricula-func" id="id-numero-matricula" min="1"
+                      placeholder="Ex: 1001">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label for="id-cpf-funcionario">CPF:</label>
+                    <input type="text" class="form-control" name="cpf-func" id="id-cpf-funcionario">
+                  </div>
+                </div>
+              </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+              
+
+              <div class="row row3-formulario-consulta mb-3">
+                <div class="col-12 col-row3-formulario-consulta">
+                  <div class="card border-0">
+                    <a class="btn p-0 text-left" data-toggle="collapse" href="#maisDetalhes" role="button"
+                      aria-expanded="false" aria-controls="maisDetalhes">
+                      <h5 class="card-header cor-base1 text-white rounded">Mais Detalhes</h5>
+                    </a>
+                    <div class="collapse" id="maisDetalhes">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="id-data-admissao">Data da Admissão</label>
+                              <input class="form-control" type="date" name="data-admissao" id="id-data-admissao">
+                            </div>
+                            <div class="form-group">
+                              <label for="id-data-aniversario">Data do Aniverário</label>
+                              <input class="form-control" type="date" name="data-aniversario" id="id-data-aniversario">
+                            </div>
+                          </div>
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="id-status-func">Status</label>
+                              <input class="form-control" list="id-status-func" name="status-func">
+                              <datalist id="id-status-func">
+                                <option value="Ativo">
+                                <option value="Inativo">
+                                <option value="Demitido">
+                                <option value="Afastado">
+                                <option value="Suspenso">
+                                <option value="Ferias">
+                              </datalist>
+                            </div>
+                            <div class="form-group">
+                              <label for="date">Ordenação</label>
+                              <select class="form-control" name="ordem">
+                                <option value="data">Por Data</option>
+                                <option value="ano">Por Lotação</option>
+                                <option value="numero">Por Matricula</option>
+                                <option value="nome">Por Nome</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- coluna row3-formulario-consulta -->
+              </div><!-- row3-formulario-consulta segunda linha do formulário de consulta -->
+              <button type="submit" class="btn btn-primary" name="operacao" value="FILTRAR" id="id-btn-filtrar">
+                <i class="fa fa-filter" aria-hidden="true"></i>Filtrar</button>
+              <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+                  Limpar</button>
+            </form>
+            <!-- fim form consulta funcionário -->
+            
+            
+            <div class="preview-funcionarios my-5">
+              <div class="funcionarios mb-5">
+               
+
+                <div class="row d-flex align-items-baseline">
+                  <div class="col">
+                    <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+                      aria-controls="funcionariosCollapse">
+                      <h5 class="h4 mb-0" id='resultado'>Resultado - {{ resultado.qtde_entidades() }} {% if resultado.qtde_entidades() > 1 %} Funcionários encontrados {% else %} Funionário encontrado{% endif %}
+                      </h5>
+                    </a>
+                  </div>
+                  <div class="col ">
+                    <a class="btn btn-primary float-right ml-1" id="id-listar-tudo" href="{{ url_for('bp_funcionario.cadastrar_funcionario', operacao='LISTAR')}}#consulta">
+                      LISTAR TODOS
+                    </a>
+                    <a class="btn btn-primary float-right" id="limpar-filtros" href="{{ url_for('bp_funcionario.cadastrar_funcionario')}}#consulta">
+                      <i class="fa fa-eraser" aria-hidden="true"></i> LIMPAR FILTROS
+                    </a>
+                  </div>
+                </div>
+                <div class="dropdown-divider"></div>
+
+                <div class="rounded shadow">
+                  <div class="card border-0">
+                    <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse"
+                      role="button" aria-expanded="false" aria-controls="funcionariosCollapse">
+                      <h6 class="card-header cor-base2 rounded">Lista dos Funcionários </h6>
+                    </a>
+                    <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                      <div class="card-body ">
+                        <div class="table-responsive">
+                          <table class="table mb-0">
+                            <thead>
+                              <tr>
+                                <th>AÇÕES</th>
+                                <th>Matrícula</th>
+                                <th>Funcionário</th>
+                                <th>Lotação</th>
+                                <th>Status</th>
+                                <th>CPF</th>
+                                <th>PIS</th>
+                                <th>Email</th>
+                                <th>Nascimento</th>
+                                <th class="text-nowrap">Data inclusão</th>
+                                <th>Responsável</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for funcionario in resultado.entidades %}
+                                  
+                                <tr>
+                                  <td class="d-flex" id="id-acoes">
+                                    <a class="btn btn-primary mr-1" 
+                                      href="{{ url_for('bp_funcionario.alterar_funcionario', funcionario_id=funcionario.id, operacao='PRE-ATUALIZAR') }}"
+                                      name="operacao" id="id-btn-pre-alterar-{{funcionario.matricula}}" value="PRE-ATUALIZAR"><i class="fa fa-pencil fa-1x"></i>
+                                    </a>
+
+                                    {% if funcionario._status.nome == 'EXCLUIDO' %}
+                                      <a class="btn btn-secondary text-white" name="operacao" value="PRE-EXCLUIR"><i class="fa fa-trash fa-1x"></i></a>                                        
+                                    {% else %}
+                                      <a class="btn btn-danger" href="{{ url_for('bp_funcionario.excluir_funcionario', funcionario_id=funcionario.id, operacao='PRE-EXCLUIR') }}" 
+                                        name="operacao" id="id-btn-pre-excluir-{{funcionario.matricula}}" value="PRE-EXCLUIR"><i class="fa fa-trash fa-1x"></i></a>                                        
+                                    {% endif %}
+                                    
+                                  </td>
+                                  <td>{{ funcionario.matricula|e }}</td>
+                                  <td class="text-nowrap ">
+                                    <a
+                                      href="{{ url_for('bp_funcionario.alterar_funcionario', funcionario_id=funcionario.id, operacao='PRE-ATUALIZAR') }}">
+                                      {{ funcionario.nome|e }}
+                                    </a>
+
+                                  </td>
+                                  <td class="text-nowrap ">{{ funcionario.lotacao|e }}</td>
+                                  <td class="text-nowrap ">{{ funcionario._status.nome|e }}</td>
+                                  <td class="text-nowrap ">{{ funcionario.cpf|e }}</td>
+                                  <td class="text-nowrap ">{{ funcionario.pisPasep|e }}</td>
+                                  <td>{{ funcionario.email|e }}</td>
+                                  {% if funcionario.dataNascimento %}
+                                    <td class="text-nowrap ">{{ funcionario.dataNascimento.strftime('%d/%m/%Y') }}</td>
+                                  {% else %}
+                                     <td></td> 
+                                  {% endif %}
+                                  {% if funcionario.dataCadastro %}
+                                    <td class="text-nowrap ">{{ funcionario.dataCadastro.strftime('%d/%m/%Y') }}</td>
+                                  {% else %}
+                                     <td></td> 
+                                  {% endif %}
+                                  <th>{{funcionario.responsavelCadastro}}</th>
+                                </tr>
+                              {% endfor %}
+                              
+                            </tbody>
+                            <tfoot>
+                              <tr class="">
+                                <td colspan="9">
+                                  
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination d-flex justify-content-center mt-2 mb-0">
+                                <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Previous</a></li>
+                                <li class="page-item"><a class="page-link" href="#id-titulo-resultado">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#id-titulo-resultado">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#id-titulo-resultado">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Next</a></li>
+                              </ul>
+                            </nav>
+                          </div>
+                        </div>
+                      </div><!-- card body tipos normativos -->
+                    </div><!-- collapse show-->
+                  </div><!-- card tipos normativos -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

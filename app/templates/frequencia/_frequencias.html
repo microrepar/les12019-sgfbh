@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block menu_frequencias_active %}active{% endblock %}
+
+
+{% set espelhos_mensais = resultado.entidades %}
+
+
+{% block conteudo %}
+
+<section class="conteudo container-fluid">
+    <div class="container conteudo-formulario mb-3">
+        <div class="row">
+          <div class="col-md conteudo-principal">
+            
+            <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+              <h1 class="display-4">Frequências dos Funcionários<h1>
+                <p class="lead">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas voluptatum?
+                </p>
+            </div>
+            
+            <div class="row d-flex align-items-baseline">
+              <div class="col">
+                <h5 class="h4 mb-0">Consulta</h5>
+              </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+              <div class="row row1-formulario-consulta">
+                <div class="col-lg-7">
+                  <div class="form-group">
+                    <label for="id-nome-funcionario">Nome do Funcionário:</label>
+                    <input type="text" class="form-control" id="id-nome-funcionario"
+                      placeholder="Insirá o nome do funcionário">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label for="id-numero-matricula">Matricula:</label>
+                    <input type="number" class="form-control" id="id-numero-matricula" min="1"
+                      placeholder="Ex: 1001">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label for="id-cpf-funcionario">CPF:</label>
+                    <input type="text" class="form-control" id="id-cpf-funcionario">
+                  </div>
+                </div>
+              </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+              
+
+              <div class="row row3-formulario-consulta mb-3">
+                <div class="col-12 col-row3-formulario-consulta">
+                  <div class="card border-0">
+                    <a class="btn p-0 text-left" data-toggle="collapse" href="#maisDetalhes" role="button"
+                      aria-expanded="false" aria-controls="maisDetalhes">
+                      <h5 class="card-header cor-base1 text-white rounded">Mais Detalhes</h5>
+                    </a>
+                    <div class="collapse" id="maisDetalhes">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="id-periodo-de">Período de:</label>
+                              <input class="form-control" type="date" name="periodo-de" id="id-periodo-de">
+                            </div>
+                            <div class="form-group">
+                              <label for="id-periodo-ate">Até:</label>
+                              <input class="form-control" type="date" name="periodo-ate" id="id-periodo-ate">
+                            </div>
+                            <div class="form-group">
+                              <label for="id-mes-ref-frequencia">Mês de Referência:</label>
+                              <select class="form-control" name="id-mes-ref-frequencia" id="id-mes-ref-frequencia">
+                                <option></option>
+                                <option>Janeiro</option>
+                                <option>Fevereiro</option>
+                                <option>Março</option>
+                                <option>Abril</option>
+                                <option>Maio</option>
+                                <option>Junho</option>
+                                <option>Julho</option>
+                                <option>Agosto</option>
+                                <option>Outubro</option>
+                                <option>Novembro</option>
+                                <option>Dezembro</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-4">
+                            <div class="form-group">
+                              <label for="id-status-func">Por Status</label>
+                              <input class="form-control" list="id-status-func" name="status-func">
+                              <datalist id="id-status-func">
+                                <option value="Ativo">
+                                <option value="Inativo">
+                                <option value="Demitido">
+                                <option value="Afastado">
+                                <option value="Suspenso">
+                                <option value="Ferias">
+                              </datalist>
+                            </div>
+                            <div class="form-group">
+                              <label for="date">Ordenação</label>
+                              <select class="form-control" name="ordem">
+                                <option value=""></option>
+                                <option value="data">Por Data</option>
+                                <option value="ano">Por Lotação</option>
+                                <option value="numero">Por Matricula</option>
+                                <option value="nome">Por Nome</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="id-ano-ref-frequencia">Ano Referência</label>
+                              <input type="number" class="form-control" name="ano-ref-frequencia" min="2000"
+                                id="id-ano-ref-frequencia" aria-describedby="helpId" placeholder="">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label for="id-lotacao-func">Por Lotação</label>
+                              <input class="form-control" list="id-lotacao-func" name="lotacao-func">
+                              <datalist id="id-lotacao-func">
+                                <option value="Recurso Humanos">
+                                <option value="Almoxarifado">
+                                <option value="Contabilidade">
+                                <option value="Compras">
+                                <option value="Vendas">
+                                <option value="Atendimento">
+                              </datalist>
+                            </div>
+                            <div class="form-group">
+                              <label for="id-ocorrencia-frequencia">Ocorrências</label>
+                              <select class="custom-select" name="id-ocorrencia-frequencia" id="id-ocorrencia-frequencia">
+                                <option selected>Selecione</option>
+                                <option value="todos">Todos</option>
+                                <option value="sem">Sem Ocorrências</option>
+                                <option value="com">Com Ocorrências</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- coluna row3-formulario-consulta -->
+              </div><!-- row3-formulario-consulta segunda linha do formulário de consulta -->
+              <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+                  Filtrar</button>
+              <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+                  Limpar</button>
+            </form>
+            <!-- fim form consulta funcionário -->
+            
+            
+            <div class="preview-funcionarios my-5">
+              <div class="funcionarios mb-5">
+                <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+                  aria-controls="funcionariosCollapse">
+                  <h5 class="h4">Resultado</h5>
+                </a>
+                <div class="dropdown-divider"></div>
+
+                <div class="rounded shadow">
+                  <div class="card border-0">
+                    <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse"
+                      role="button" aria-expanded="false" aria-controls="funcionariosCollapse">
+                      <h6 class="card-header cor-base2 rounded">LISTA DE FREQUÊNCIAS</h6>
+                    </a>
+                    <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                      <div class="card-body pb-0">
+                        <div class="table-responsive">
+                          <table class="table mb-0">
+                            <thead>
+                              <tr>
+                                <th>AÇÕES</th>
+                                <th>Matríclua</th>
+                                <th>Funcionário</th>
+                                <th>Lotação</th>
+                                <th>Status</th>
+                                <th>Ocorrências</th>
+                                <th>Período</th>
+                                <th>Mês Ref.</th>
+                                <th>Ano Ref.</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for espelho in espelhos_mensais if espelho.mes_referencia is not none %}
+                              <tr>
+                                <td class="d-flex" id="id-acoes">
+                                  <a class="btn btn-primary mr-1" href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal', espelho_mensal_id=espelho.id, operacao='VISUALIZAR') }}">Avaliar</a>
+                                </td>
+                                <td >{{ espelho.funcionario.matricula|e }}</td>
+                                <td>
+                                  <a class="text-nowrap" href="#id-titulo-resultado">{{ espelho.funcionario.nome|e }}</a>
+                                </td>
+                                <td class="text-nowrap">{{ espelho.funcionario.lotacao|e }}</td>
+                                <td>{{ espelho.funcionario._status.nome|e }}</td>
+                                <td class="text-nowrap text-center ">{{ espelho.qtde_total_ocorrencias|e }}</td>
+                                <td class="text-nowrap">{{espelho.periodo_inicio_formatado}} - {{espelho.periodo_fim_formatado}}</td>
+                                <td>{{espelho.mes_referencia}}</td>
+                                <td>{{espelho.ano_referencia}}</td>
+                              </tr>
+                              {% else %}
+                                <tr>
+                                  <td colspan="8" class="text-center">NENHUM ESPELHO MENSAL ENCONTRADO!</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                            <tfoot>
+                              <tr class="">
+                                <td colspan="8">
+                                  <nav aria-label="Page navigation example">
+                                    <ul class="pagination d-flex justify-content-center mt-2 mb-0">
+                                      <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Previous</a></li>
+                                      <li class="page-item"><a class="page-link" href="#id-titulo-resultado">1</a></li>
+                                      <li class="page-item"><a class="page-link" href="#id-titulo-resultado">2</a></li>
+                                      <li class="page-item"><a class="page-link" href="#id-titulo-resultado">3</a></li>
+                                      <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Next</a></li>
+                                    </ul>
+                                  </nav>
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+
+                      </div><!-- card body tipos normativos -->
+                    </div><!-- collapse show-->
+                  </div><!-- card tipos normativos -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- conteudo-principal -->
+          <!-- <div class="col-md-4 conteudo-secundario px-3 my-3 ">
+              <h5 class="h4">Conteúdo Secundário</h5>
+              <div class="dropdown-divider"></div>
+              <div class="cor-base2 rounded p-3">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis iste sed sapiente, autem
+                      quaerat
+                      dolore voluptatibus beatae ratione nemo reiciendis nam quos, accusantium non accusamus itaque
+                      consequatur
+                      laudantium natus ipsam. </p>
+              </div>
+          </div> -->
+          <!-- conteudo-secundario -->
+        </div>
+    </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

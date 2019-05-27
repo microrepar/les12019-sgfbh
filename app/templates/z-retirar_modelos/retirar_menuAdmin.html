@@ -1,0 +1,33 @@
+
+
+<li class="nav-item {% block menu_home_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_main.home') }}">Home<span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item {% block menu_func_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_funcionario.funcionarios') }}">Funcionários</a>
+</li>
+<li class="nav-item {% block menu_usuarios_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_main.usuarios') }}">Usuários</a>
+</li>
+<li class="nav-item {% block menu_escalas_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_main.jornadas') }}">Jornadas</a>
+</li>
+<li class="nav-item {% block menu_pendencias_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_ocorrencia.pendencias') }}">Pendências</a>
+</li>
+<li class="nav-item {% block menu_frequencias_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_frequencia.frequencias') }}">Frequências</a>
+</li>
+<li class="nav-item {% block menu_bancoDeHoras_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_aplicacao.banco_de_horas') }}">Banco de Horas</a>
+</li>
+<li class="nav-item {% block menu_compensacoes_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_aplicacao.compensacoes') }}">Compensações</a>
+</li>
+<!-- <li class="nav-item {% block menu_contato_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_main.contato') }}">Contato</a>
+                    </li> -->
+<li class="nav-item {% block menu_ajuda_active %}{% endblock %}">
+    <a class="nav-link" href="{{ url_for('bp_main.ajuda') }}">Ajuda?</a>
+</li>
+

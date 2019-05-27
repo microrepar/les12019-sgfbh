@@ -1,0 +1,534 @@
+{% extends "base.html" %} 
+
+{% block menu_solicitacoes_active %}active{% endblock %} 
+
+{% set solicitacao = resultado.entidades[-1] %}
+
+{%block conteudo %}
+<div class="container conteudo mb-5">
+  <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+    <h1 class="display-4">Atualizar Solicitação<h1>
+        <p class="lead text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores corporis.  
+        </p>
+  </div>
+
+  <div class="row  d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados gerais de identificação</h5>
+    </div>
+    <div class="col ">
+      {% if current_user.is_authenticated %}
+        <a class="btn btn-primary float-right mr-1"
+          href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=solicitacao.ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-pendencias">
+          VOLTAR
+        </a>
+      {% else %}
+        <a class="btn btn-primary float-right mr-1"
+          href="{{ url_for('bp_solicitacao.consultar_solicitacoes', txt_funcionario_id=28, operacao='CONSULTAR_ID') }}#id-titulo-pendencias">
+          VOLTAR
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="dropdown-divider"></div>
+  
+  <div class="rounded shadow bg-white px-3 py-3">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label for="txt-funcionario-matricula">Matricula</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-matricula" id="id-txt-funcionario-matricula" 
+              value="{{ solicitacao.funcionario_matricula() }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-matricula" id="id-txt-funcionario-matricula" 
+              value="{{ solicitacao.funcionario_matricula() }}">
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="txt-funcionario-nome">Nome do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{ solicitacao.funcionario_nome() }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{ solicitacao.funcionario_nome() }}">
+          </div>
+        </div>
+        <div class="col-lg-5"> 
+          <div class="form-group">
+            <label for="txt-solicitacao-data_cadastro">Cargo</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{ solicitacao.funcionario_cargo() }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{ solicitacao.data_cadastro_formatada }}">
+          </div>
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-funcionario-locacao">Lotação do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-locacao" id="txt-funcionario-locacao" 
+              value="{{ solicitacao.funcionario_lotacao() }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-locacao" id="txt-funcionario-locacao" 
+              value="{{ solicitacao.funcionario_lotacao() }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-funcionario-unidade_trabalho">Unidade de trabalho do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-unidade_trabalho" id="txt-funcionario-unidade_trabalho"
+              value="{{ solicitacao.funcionario_unidade_trabalho() }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-unidade_trabalho" id="txt-funcionario-unidade_trabalho"
+              value="{{ solicitacao.funcionario_unidade_trabalho() }}">
+          </div>
+        </div>
+      </div>
+
+      <h5 class="h4 mt-3">Dados da Ocorrência</h5>
+      <div class="dropdown-divider"></div>
+
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-espelho_dia-data">Data da ocorrência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-espelho_dia-data" 
+              id="txt-ocorrencia-espelho_dia-data" value="{{ solicitacao.ocorrencia.espelho_diario.data_formatada }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-espelho_dia-data" 
+              id="txt-ocorrencia-espelho_dia-data" value="{{ solicitacao.ocorrencia.espelho_diario.data_formatada }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-pendencia">Pendência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-pendencia" id="txt-ocorrencia-pendencia"
+              value="{{ solicitacao.ocorrencia.pendencia.sigla }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-pendencia" id="txt-ocorrencia-pendencia"
+              value="{{ solicitacao.ocorrencia.pendencia.sigla }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-periodo">Momento</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{ solicitacao.ocorrencia.periodo.momento }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{ solicitacao.ocorrencia.periodo.momento }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-periodo">Período</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{ solicitacao.ocorrencia.periodo.nome }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{ solicitacao.ocorrencia.periodo.nome }}">
+          </div>
+        </div>        
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-status">Status da ocorrência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status"
+              value="{{ solicitacao.ocorrencia.status.nome }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status"
+              value="{{ solicitacao.ocorrencia.status.nome }}">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label for="txt-ocorrencia-quantidade_horas">Desc_horas</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-quantidade_horas" id="txt-ocorrencia-quantidade_horas"
+              value="{{ solicitacao.ocorrencia.quantidade_horas }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-quantidade_horas" id="txt-ocorrencia-quantidade_horas"
+              value="{{ solicitacao.ocorrencia.quantidade_horas }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_inicio">Data início</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-data_inicio" id="txt-ocorrencia-data_inicio"
+              value="{{ solicitacao.ocorrencia.data_inicio_formatada|e }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-data_inicio" id="txt-ocorrencia-data_inicio"
+              value="{{ solicitacao.ocorrencia.data_inicio_formatada|e }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_inicio">Data fim</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-data_fim" id="txt-ocorrencia-data_fim"
+              value="{{ solicitacao.ocorrencia.data_inicio_formatada|e }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-data_fim" id="txt-ocorrencia-data_fim"
+              value="{{ solicitacao.ocorrencia.data_inicio_formatada|e }}">
+          </div>
+        </div>
+      </div>     
+      
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-ocorrencia-obsevacao">Observação da ocorrência</label>
+            <textarea disabled class="form-control" name="txt-ocorrencia-obsevacao" 
+              id="txt-ocorrencia-obsevacao" rows="4">{{ solicitacao.ocorrencia.observacao }}</textarea>
+            <textarea hidden class="form-control" name="txt-ocorrencia-obsevacao" 
+              id="txt-ocorrencia-obsevacao" rows="4">{{ solicitacao.ocorrencia.observacao }}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <h5 class="h4 mt-3">Preenchimento da Solitação</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-solicitacao-data_cadastro">Data do preenchimento</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{ solicitacao.data_cadastro_formatada|e }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{ solicitacao.data_cadastro_formatada|e }}">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-solicitacao-responsavel_cadastro">Responsável pelo preechimento</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-responsavel_cadastro" id="txt-solicitacao-responsavel_cadastro">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-responsavel_cadastro" id="txt-solicitacao-responsavel_cadastro">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-solicitacao-email_reposponsavel_inclusao">E-mail do Responsável pela inclusão</label>
+            <input disabled type="email" class="form-control" name="txt-solicitacao-email_reposponsavel_inclusao"
+              id="txt-solicitacao-email_reposponsavel_inclusao" value="{{ solicitacao.email }}">
+            <input hidden type="email" class="form-control" name="txt-solicitacao-email_reposponsavel_inclusao"
+              id="txt-solicitacao-email_reposponsavel_inclusao" value="{{ solicitacao.email }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-solicitacao-numero">Nº solicitação</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-numero" id="txt-solicitacao-numero"
+              value="{{ solicitacao.numero }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-numero" id="txt-solicitacao-numero"
+              value="{{ solicitacao.numero }}">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-solicitacao-tipo">Tipo solicitação *</label>
+            <select class="custom-select" name="txt-solicitacao-tipo" id="txt-solicitacao-tipo">
+              <option value="">Selecione um tipo</option>
+              {% for tipo in solicitacao._lista_tipos %}
+                {% if tipo.id|e == solicitacao.tipo.id|e %}
+                  <option selected value="{{ tipo.id|e }}">{{ tipo.nome|e }}</option>
+                  {% else %}
+                  <option value="{{ tipo.id|e }}">{{ tipo.nome|e }}</option>
+                {% endif %}
+              {% else %}
+              <option value="">Não há registro de tipos</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-solicitacao-status">Status</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="{{ solicitacao.status.nome }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="{{ solicitacao.status.id }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-solicitacao-descricao">Descrição da solicitação *</label>
+            <textarea class="form-control" name="txt-solicitacao-descricao" id="txt-solicitacao-descricao" rows="4">{{ solicitacao.descricao }}</textarea>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="row my-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input hidden type="text" name="txt_solicitacao_id" id="txt_solicitacao_id" value="{{solicitacao.id}}">
+          <input hidden type="text" name="txt_ocorrencia_id" id="txt_ocorrencia_id" value="{{solicitacao.ocorrencia.id}}">
+          <input hidden type="text" name="txt_despacho_id" id="txt_despacho_id" value="{{solicitacao.despacho.id}}">
+          <button type="submit" class="btn btn-primary float-right" name="operacao" value="ATUALIZAR"
+          formaction="{{ url_for('bp_solicitacao.cadastrar_solicitacao') }}"> <i class="fa fa-save"></i> ATUALIZAR</button>
+          {% if current_user.is_authenticated %}
+          <a class="btn btn-primary float-right mr-1"
+            href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=solicitacao.ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-pendencias">
+            VOLTAR
+          </a>
+          {% else %}
+          <a class="btn btn-primary float-right mr-1"
+            href="{{ url_for('bp_solicitacao.consultar_solicitacoes', txt_funcionario_id=28, operacao='CONSULTAR_ID') }}#id-titulo-pendencias">
+            VOLTAR
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+  </div>
+    
+  {#     
+  
+  <div class="preview-enderecos my-5">
+    <div class="enderecos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+        aria-controls="enderecosCollapse">
+        <h5 class="h4" id="id-titulo-enderecos">Endereços</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#enderecosCollapse" role="button"
+            aria-expanded="false" aria-controls="enderecosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE ENDEREÇOS</h6>
+          </a>
+          <div class="collapse multi-collapse0 show" id="enderecosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Tipo</th>
+                      <th>Logradouro</th>
+                      <th>Número</th>
+                      <th>Bairro</th>
+                      <th>Cidade</th>
+                      <th>UF</th>
+                      <th>CEP</th>
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Alterar</a>
+                        <a class="btn btn-primary" href="#">Excluir</a>
+                      </td>
+                      
+                      <td class="align-middle">Residencial</td>
+                      <td class="align-middle">Tabajara</td>
+                      <td class="align-middle">171</td>
+                      <td class="text-nowrap align-middle">Jardim Castro Alves</td>
+                      <td class="text-nowrap align-middle">São Paulo</td>
+                      <td class="align-middle">SP</td>
+                      <td class="align-middle">071171-171</td>
+                      <td class="align-middle">Nome Usuário</td>
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="9">
+                        <a class="btn btn-primary float-right" href="#id-titulo-enderecos">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="preview-contatos my-5">
+    <div class="contatos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse1" role="button" aria-expanded="false"
+        aria-controls="contatosCollapse">
+        <h5 class="h4" id="id-titulo-contatos">Contatos</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#contatosCollapse" role="button"
+            aria-expanded="false" aria-controls="contatosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE CONTATOS</h6>
+          </a>
+          <div class="collapse multi-collapse1 show" id="contatosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Tipo</th>
+                      <th>Telefone</th>
+                      <th>Ramal</th>                      
+                      <th>Observação</th>  
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Alterar</a>
+                        <a class="btn btn-primary" href="#">Excluir</a>
+                      </td>
+                      <td class="align-middle">Residêncial</td>
+                      <td class="align-middle">(11)4446-1711</td>
+                      <td class="align-middle">171</td>
+                      <td class="text-nowrap align-middle">Falar com Gladstone</td>
+                      <td class="text-nowrap align-middle">Nome do Usuário</td>
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6">
+                        <a class="btn btn-primary float-right" href="#id-titulo-contatos">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="preview-relogios my-5">
+    <div class="relogios mb-5">
+      <a data-toggle="collapse" href=".multi-collapse2" role="button" aria-expanded="false"
+        aria-controls="relogiosCollapse">
+        <h5 class="h4" id="id-titulo-relogios">Relógios</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#relogiosCollapse" role="button"
+            aria-expanded="false" aria-controls="relogiosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE RELÓGIOS</h6>
+          </a>
+          <div class="collapse multi-collapse2 show" id="relogiosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Código</th>
+                      <th>Nome do Relógio</th>
+                      <th>Status</th>                      
+                      <th>Responsável</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-danger mr-1" href="#id-titulo-relogios"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Excluir</a>
+                      </td>
+                      <td class="align-middle">123.3652.56</td>
+                      <td class="align-middle">vila do chaves</td>
+                      <td class="align-middle">ATIVO</td>
+                      <td class="align-middle">Nome do Responsável</td>                      
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <a class="btn btn-primary float-right" href="#id-titulo-relogios">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="preview-jornada my-5">
+    <div class="jornada mb-5">
+      <a data-toggle="collapse" href=".multi-collapse3" role="button" aria-expanded="false"
+        aria-controls="jornadaCollapse">
+        <h5 class="h4" id="id-titulo-jornadas">Jornadas</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#jornadaCollapse" role="button"
+            aria-expanded="false" aria-controls="jornadaCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE JORNADAS</h6>
+          </a>
+          <div class="collapse multi-collapse3 show" id="jornadaCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ações</th>
+                      <th>Data Inclusão</th>
+                      <th>Início em</th>
+                      <th>Nome da Jornada</th>
+                      <th>Status</th>  
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-danger mr-1" href="#id-titulo-jornadas"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="#id-titulo-jornadas">Detalhes</a>
+                      </td>
+                      <td class="align-middle">01/01/2019</td>
+                      <td class="align-middle">30/01/2019</td>
+                      <td class="align-middle">
+                        <a href="#jornadaCollapse">
+                          Desenvolverdor Senior 40h
+                        </a>
+                      </td>
+                      <td class="align-middle">ATIVO</td>
+                      <td class="align-middle">Nome do Usuário</td>                      
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6">
+                        <a class="btn btn-primary float-right" href="#id-titulo-jornadas">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+  #}
+
+
+</div>
+{% endblock %}
+<!-- conteudo -->

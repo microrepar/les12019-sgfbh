@@ -1,0 +1,149 @@
+{% extends "base.html" %} 
+
+
+{% block menu_escalas_active %}active{% endblock %}
+
+{% set jornada = resultado.entidades[-1] %}
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+   <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+     <h1 class="display-4">Excluir Jornada<h1>
+         <p class="lead text-justify">
+           Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident
+           ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores
+           corporis.
+         </p>
+   </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %}
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+
+{%block conteudo %}
+
+<div class="container conteudo">
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados da jornada</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right" href="{{ url_for('bp_escala.jornadas') }}">VOLTAR</a>
+    </div>
+  </div>
+  <div class="dropdown-divider"></div>  
+  
+  <div class="rounded shadow bg-white px-3 pt-3 pb-1 mb-5">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-2"> 
+          <div class="form-group">
+            <label for="txt-jornada-codigo">Código *</label>
+            <input type="text" class="form-control" name="txt-jornada-codigo" id="txt-jornada-codigo" value="{{ jornada.codigo }}">
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="form-group">
+            <label for="txt-jornada-nome">Nome da jornada *</label>
+            <input type="text" class="form-control" name="txt-jornada-nome" id="txt-jornada-nome" value="{{ jornada.nome }}">
+          </div>
+        </div> 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-carga_horaria">Carga Horaria *</label>
+            <input type="text" class="form-control" name="txt-jornada-carga_horaria" id="txt-jornada-carga_horaria" value="{{ jornada.carga_horaria }}">
+          </div>
+        </div>
+    
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">        
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-quantidade_minima_mpto">Qtde min. MPTO *</label>
+            <input type="text" class="form-control" name="txt-jornada-quantidade_minima_mpto" id="txt-jornada-quantidade_minima_mpto"
+              placeholder="Quantidade mín. mpto/dia" value="{{ jornada.quantidade_minima_mpto }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-quantidade_maxima_dias">Max. dias trabalho/semana *</label>
+            <input type="text" class="form-control" name="txt-jornada-quantidade_maxima_dias" id="txt-jornada-quantidade_maxima_dias" 
+              value="{{ jornada.quantidade_maxima_dias }}" placeholder="Quantidade max. dias/semana">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-intervalo_minimo">Mín. intervalo descanso *</label>
+            <input type="text" class="form-control" name="txt-jornada-intervalo_minimo" id="txt-jornada-intervalo_minimo"
+              value="{{ jornada.intervalo_minimo }}" placeholder="Mín. horas descanso/almoço">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-limite_max_horas_periodo">Limite horas/período *</label>
+            <input type="text" class="form-control" name="txt-jornada-limite_max_horas_periodo" id="txt-jornada-limite_max_horas_periodo" 
+              value="{{ jornada.limite_max_horas_periodo }}" placeholder="Máx. horas/período">
+          </div>
+        </div>
+      </div>      
+      <div class="row">
+        <div class="col-3">        
+          <div class="form-group">
+            <label for="txt-jornada-data_cadastro">Data do Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-jornada-data_cadastro" id="txt-jornada-data_cadastro" value="{{ jornada.data_cadastro_formatada }}">
+            <input hidden type="text" class="form-control" name="txt-jornada-data_cadastro" id="txt-jornada-data_cadastro" value="{{ jornada.data_cadastro_formatada }}">
+          </div>        
+        </div>
+        <div class="col">        
+          <div class="form-group">
+            <label for="txt-jornada-responsavel_cadastro">Responsável pelo Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-jornada-responsavel_cadastro" id="txt-jornada-responsavel_cadastro" value="{{ jornada.responsavel_cadastro }}">
+            <input hidden type="text" class="form-control" name="txt-jornada-responsavel_cadastro" id="txt-jornada-responsavel_cadastro" value="{{ jornada.responsavel_cadastro }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-jornada-status">Status *</label>
+            <select class="custom-select" name="txt-jornada-status" id="txt-jornada-status">
+              {% for status in jornada._lista_status %}
+                {% if status.id|e == jornada.status.id|e %}
+                  <option selected value="{{ status.id|e }}">{{ status.nome|e }}</option>
+                {% else %}
+                  <option value="{{ status.id|e }}">{{ status.nome|e }}</option>
+                {% endif %}
+              {% else %}
+                <option value="">Nenhum registro encontrado</option>                
+              {% endfor %}              
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-jornada-descricao">Descrição *</label>
+            <textarea class="form-control" name="txt-jornada-descricao" id="txt-jornada-descricao" rows="3">{{ jornada.descricao }}</textarea>
+          </div>
+        </div>
+      </div>      
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input hidden type="text" name="txt_jornada_id" id="txt_jornada_id" value="{{jornada.id}}">
+          <button type="submit" class="btn btn-danger float-right" name="operacao" 
+           formaction="{{ url_for('bp_escala.excluir_jornada') }}" value="EXCLUIR"> <i class="fa fa-trash-o" aria-hidden="true"></i> EXCLUIR</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+<!-- conteudo -->

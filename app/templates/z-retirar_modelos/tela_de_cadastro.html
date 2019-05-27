@@ -1,0 +1,447 @@
+{% extends "base.html" %} 
+
+{% block menu_func_active %}active{% endblock %} 
+
+{%block conteudo %}
+
+<div class="container conteudo">
+
+  <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+    <h1 class="display-4">Cadastro de Funcionário<h1>
+        <p class="lead text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores corporis.  
+        </p>
+  </div>
+  
+  <h5 class="h4">Dados gerais de identificação</h5>
+  <div class="dropdown-divider"></div>
+  
+  <div class="rounded shadow bg-white px-3 py-3">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-3"> 
+          <div class="form-group">
+            <label for="id-cpf-funcionario">CPF*</label>
+            <input type="text" class="form-control" name="cpf-funcionario" 
+            id="id-cpf-funcionario" placeholder="___.___.___-__"/>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="id-nome-funcionario">Nome</label>
+            <input type="text" class="form-control" name="nome-funcionario" 
+            id="id-nome-funcionario" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-sexo-func">Sexo</label>
+            <select class="custom-select" name="id-sexo-func" id="id-sexo-func">
+              <option selected>Selecione</option>
+              <option value="masculino">MASCULINO</option>
+              <option value="feminino">FEMININO</option>
+            </select>
+          </div>  
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-nasc-func">Data de Nascimento</label>
+            <input type="date" class="form-control" name="id-data-nasc-func" 
+            id="id-data-nasc-func" aria-describedby="helpId" placeholder="">
+          </div>       
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-pis-func">PIS</label>
+            <input type="text" class="form-control" name="pis-func"
+            id="id-pis-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-foto-func">Foto</label>
+            <input type="file" class="form-control-file" name="id-foto-func" 
+            id="id-foto-func" placeholder="" aria-describedby="fileHelpId">
+          </div>       
+        </div>      
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-email-func">E-mail</label>
+            <input type="email" class="form-control" name="email-func" 
+            id="id-email-func" aria-describedby="emailHelpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-reponsavel-cad-func">Responsável pelo cadastro</label>
+            <input type="text" class="form-control" name="reponsavel-cad-func" 
+              id="id-reponsavel-cad-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+      </div>
+      <h5 class="h4 mt-3">Dados de contratação</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-matricula-func">Matricula</label>
+            <input type="text" class="form-control" name="matricula-func" id="id-matricula-func" aria-describedby="helpId"
+            placeholder="">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="id-cargo-func">Cargo</label>
+            <input type="text" class="form-control" name="cargo-func" 
+            id="id-cargo-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-data-admissao-func">Data da admissão</label>
+            <input type="date" class="form-control" name="data-admissao-func" 
+            id="id-data-admissao-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-lotacao-func">Lotação</label>
+            <input type="text" class="form-control" name="lotacao-func" 
+            id="id-lotacao-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-unidade-trabalho-func">Unidade de trabalho</label>
+            <input type="text" class="form-control" name="unidade-trabalho-func" 
+            id="id-unidade-trabalho-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-numero-ctps-func">Número CTPS</label>
+            <input type="text" class="form-control" name="numero-ctps-func" 
+            id="id-numero-ctps-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-ctps-func">Série CTPS</label>
+            <input type="text" class="form-control" name="ctps-func" 
+            id="id-ctps-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-uf-ctps-func">UF CTPS</label>
+            <input type="text" class="form-control" name="uf-ctps-func" 
+            id="id-uf-ctps-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-emissao-ctps-func">Data emissão CTPS</label>
+            <input type="date" class="form-control" name="data-emissao-ctps-func" 
+            id="id-data-emissao-ctps-func" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-tipo-vinculo-func">Tipo de vínculo</label>
+            <select class="custom-select" name="id-tipo-vinculo-func" id="id-tipo-vinculo-func">
+              <option selected>Selecione</option>
+              <option value="clt">Celetista</option>
+              <option value="temporario">Temporário</option>
+              <option value="estatutario">Estatutário</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-nome-usuario">Nome de usuário</label>
+            <input type="text" class="form-control" name="nome-usuario" 
+            id="id-nome-usuario" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-senha-usuario">Senha</label>
+            <input type="text" class="form-control" name="senha-usuario" 
+            id="id-senha-usuario" aria-describedby="helpId" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <button type="submit" class="btn btn-primary float-right"> <i class="fa fa-save"></i> Salvar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+    
+
+  <div class="preview-enderecos my-5">
+    <div class="enderecos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+        aria-controls="enderecosCollapse">
+        <h5 class="h4" id="id-titulo-enderecos">Endereços</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#enderecosCollapse" role="button"
+            aria-expanded="false" aria-controls="enderecosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE ENDEREÇOS</h6>
+          </a>
+          <div class="collapse multi-collapse0 show" id="enderecosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Tipo</th>
+                      <th>Logradouro</th>
+                      <th>Número</th>
+                      <th>Bairro</th>
+                      <th>Cidade</th>
+                      <th>UF</th>
+                      <th>CEP</th>
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Alterar</a>
+                        <a class="btn btn-primary" href="#">Excluir</a>
+                      </td>
+                      
+                      <td class="align-middle">Residencial</td>
+                      <td class="align-middle">Tabajara</td>
+                      <td class="align-middle">171</td>
+                      <td class="text-nowrap align-middle">Jardim Castro Alves</td>
+                      <td class="text-nowrap align-middle">São Paulo</td>
+                      <td class="align-middle">SP</td>
+                      <td class="align-middle">071171-171</td>
+                      <td class="align-middle">Nome Usuário</td>
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="9">
+                        <a class="btn btn-primary float-right" href="#id-titulo-enderecos">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+  {# 
+     
+  
+  <div class="preview-contatos my-5">
+    <div class="contatos mb-5">
+      <a data-toggle="collapse" href=".multi-collapse1" role="button" aria-expanded="false"
+        aria-controls="contatosCollapse">
+        <h5 class="h4" id="id-titulo-contatos">Contatos</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#contatosCollapse" role="button"
+            aria-expanded="false" aria-controls="contatosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE CONTATOS</h6>
+          </a>
+          <div class="collapse multi-collapse1 show" id="contatosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Tipo</th>
+                      <th>Telefone</th>
+                      <th>Ramal</th>                      
+                      <th>Observação</th>  
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-primary mr-1" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Alterar</a>
+                        <a class="btn btn-primary" href="#">Excluir</a>
+                      </td>
+                      <td class="align-middle">Residêncial</td>
+                      <td class="align-middle">(11)4446-1711</td>
+                      <td class="align-middle">171</td>
+                      <td class="text-nowrap align-middle">Falar com Gladstone</td>
+                      <td class="text-nowrap align-middle">Nome do Usuário</td>
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6">
+                        <a class="btn btn-primary float-right" href="#id-titulo-contatos">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="preview-relogios my-5">
+    <div class="relogios mb-5">
+      <a data-toggle="collapse" href=".multi-collapse2" role="button" aria-expanded="false"
+        aria-controls="relogiosCollapse">
+        <h5 class="h4" id="id-titulo-relogios">Relógios</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#relogiosCollapse" role="button"
+            aria-expanded="false" aria-controls="relogiosCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE RELÓGIOS</h6>
+          </a>
+          <div class="collapse multi-collapse2 show" id="relogiosCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Acões</th>
+                      <th>Código</th>
+                      <th>Nome do Relógio</th>
+                      <th>Status</th>                      
+                      <th>Responsável</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-danger mr-1" href="#id-titulo-relogios"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="{{ url_for('bp_funcionario.alterar_funcionario') }}">Excluir</a>
+                      </td>
+                      <td class="align-middle">123.3652.56</td>
+                      <td class="align-middle">vila do chaves</td>
+                      <td class="align-middle">ATIVO</td>
+                      <td class="align-middle">Nome do Responsável</td>                      
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <a class="btn btn-primary float-right" href="#id-titulo-relogios">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="preview-jornada my-5">
+    <div class="jornada mb-5">
+      <a data-toggle="collapse" href=".multi-collapse3" role="button" aria-expanded="false"
+        aria-controls="jornadaCollapse">
+        <h5 class="h4" id="id-titulo-jornadas">Jornadas</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#jornadaCollapse" role="button"
+            aria-expanded="false" aria-controls="jornadaCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE JORNADAS</h6>
+          </a>
+          <div class="collapse multi-collapse3 show" id="jornadaCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ações</th>
+                      <th>Data Inclusão</th>
+                      <th>Início em</th>
+                      <th>Nome da Jornada</th>
+                      <th>Status</th>  
+                      <th>Responsável</th>
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    <tr>
+                      <td class="d-flex justify-content-left">
+                        <a class="btn btn-danger mr-1" href="#id-titulo-jornadas"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="#id-titulo-jornadas">Detalhes</a>
+                      </td>
+                      <td class="align-middle">01/01/2019</td>
+                      <td class="align-middle">30/01/2019</td>
+                      <td class="align-middle">
+                        <a href="#jornadaCollapse">
+                          Desenvolverdor Senior 40h
+                        </a>
+                      </td>
+                      <td class="align-middle">ATIVO</td>
+                      <td class="align-middle">Nome do Usuário</td>                      
+                    </tr>
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6">
+                        <a class="btn btn-primary float-right" href="#id-titulo-jornadas">Adicionar</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+  
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+
+  #}
+
+</div>
+{% endblock %}
+<!-- conteudo -->

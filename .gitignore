@@ -1,0 +1,6 @@
+app.db
+migrations/
+__pycahe__/
+.vscode/
+*.pyc
+geckodriver.log

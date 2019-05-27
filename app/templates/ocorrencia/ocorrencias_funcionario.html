@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block menu_ocorrencias_active %}active{% endblock %}
+
+{% set funcionario = resultado.entidades[-1] %}
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Preenchimento de Solicitações<h1>
+            <p class="lead">
+              Preencha as solicitações para as pendências das ocorrências lançadas ou adicione novas pendências para preencher.
+            </p>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <h5 class="h4 mb-0">Dados da Frequência Diária</h5>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-consulta">
+            <div class="col-lg-5">
+              <div class="form-group">
+                <label for="id-nome-funcionario">Nome do Funcionário:</label>
+                <input disabled type="text" class="form-control" id="id-nome-funcionario" placeholder=""
+                  value="">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="id-numero-matricula">Matricula:</label>
+                <input disabled type="number" class="form-control" id="id-numero-matricula" min="1" placeholder=""
+                  value="">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for="id-mes-ref-frequencia">Mês de Referência:</label>
+                <select disabled class="form-control" name="id-mes-ref-frequencia" id="id-mes-ref-frequencia">
+                  <option></option>
+                  <option>Janeiro</option>
+                  <option>Fevereiro</option>
+                  <option>Março</option>
+                  <option>Abril</option>
+                  <option>Maio</option>
+                  <option>Junho</option>
+                  <option>Julho</option>
+                  <option>Agosto</option>
+                  <option>Outubro</option>
+                  <option>Novembro</option>
+                  <option>Dezembro</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="id-ano-frequencia">Ano Referência</label>
+                <input disabled type="text" class="form-control" id="id-ano-frequencia" value="">
+              </div>
+            </div>
+          </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+          <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+            Filtrar</button>
+          <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+            Limpar</button>
+        </form>
+        <!-- fim form consulta funcionário -->
+        
+              
+        
+        <div class="preview-pontos-diaria my-5">
+          <div class="pontos-diaria mb-5">
+            
+            <div class="row d-flex align-items-baseline">
+              <div class="col">
+                <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+                  aria-controls="pontos-diariaCollapse">
+                  <h5 class="h4 my-0" id="id-titulo-pontos">Ocorrências do dia 21/01/2019</h5>
+                </a>
+              </div>
+              {# 
+              <div class="col my-0">
+                <a class="btn btn-primary float-right" href="{{ url_for('bp_frequencia.apontamento_frequencia_funcionario') }}">FREQUÊNCIA</a>
+                <a class="btn btn-primary float-right mx-2" href="{{ url_for('bp_solicitacao.consultar_solicitacoes', txt_funcionario_id=28, operacao='CONSULTAR_ID') }}">SOLICITAÇÕES</a>
+              </div>
+              #}
+            </div>
+            
+            <div class="dropdown-divider"></div>
+
+
+        <!-- <div class="preview-pendencias my-5">
+          <div class="pendencias mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="pendenciasCollapse">
+              <h5 class="h4" id="id-titulo-ocorrencias">Ocorrências</h5>
+            </a>
+            <div class="dropdown-divider"></div> -->
+        
+            <div class="rounded shadow">
+              <div class="card border-0 pb-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#ocorrenciasCollapse" role="button"
+                  aria-expanded="false" aria-controls="ocorrenciasCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE OCORRÊNCIAS</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="ocorrenciasCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="">Ações</th>
+                            <th class="">ID</th>
+                            <th class="text-nowrap">Data inclusão</th>
+                            <th>Pendência</th>
+                            <th>Usuário</th>
+                            <th>Status</th>
+                            <th>Cobrança</th>
+                            <th>Desc_H</th>
+                            <th>Tipo</th>
+                            <th>Observação</th>
+                          </tr>
+                        </thead>
+        
+                        <tbody>
+                          {% for espelho_diario in funcionario.espelhos_diarios if espelho_diario.ocorrencias|count != 0 %}
+                            {% for ocorrencia in espelho_diario.ocorrencias %}
+                              <tr>
+                                <td class="text-nowrap align-middle">
+                                  {% if ocorrencia.solicitacoes|count == 0 %}
+                                  <a href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=ocorrencia.espelho_diario.id, operacao='AVALIAR') + '#id-titulo-ocorrencias' }}"
+                                    class="btn btn-primary"><i class="fa fa-file-text" aria-hidden="true"></i> SOLICITAR</a>
+                                  {# 
+                                  <a href="{{ url_for('bp_ocorrencia.atualizar_ocorrencia', txt_ocorrencia_id=ocorrencia.id, operacao='PRE-ATUALIZAR') }}"
+                                  class="btn btn-primary"><i class="fa fa-pencil fa-1x" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_ocorrencia.excluir_ocorrencia', txt_ocorrencia_id=ocorrencia.id, operacao='PRE-EXCLUIR') }}"
+                                    class="btn btn-danger"><i class="fa fa-trash-o fa-1x" aria-hidden="true"></i></a>
+                                  #}
+                                  {% else %}
+                                  <a class="btn btn-secondary text-white"><i class="fa fa-file-text" aria-hidden="true"></i> SOLICITAR</a>
+                                  {#
+                                  <a class="btn btn-secondary text-white"><i class="fa fa-pencil fa-1x" aria-hidden="true"></i></a>
+                                  <a class="btn btn-secondary text-white"><i class="fa fa-trash-o fa-1x" aria-hidden="true"></i></a>
+                                  #}
+                                  {% endif %}
+                                  
+                                </td>
+                                <td class="align-middle">{{ ocorrencia.id|e }}</td>
+                                <td class="align-middle">{{ ocorrencia.data_cadastro_formatada|e }}</td>
+                                <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">{{ ocorrencia.pendencia.sigla|e }}</a></td>
+                                <td class="align-middle">{{ ocorrencia.responsavel_cadastro|e }}</td>
+                                <td class="align-middle">{{ ocorrencia.status.nome|e }}</td>
+                                <td class="align-middle text-center">
+                                  {% if ocorrencia.cobranca %}
+                                  <div class="form-check">
+                                    <input disabled checked class="form-check-input position-static" type="checkbox" id="blankCheckbox"
+                                      value="option1" aria-label="...">
+                                  </div>
+                                  {% else %}
+                                  <div class="form-check">
+                                    <input disabled class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1"
+                                      aria-label="...">
+                                  </div>
+                                  {% endif %}
+                                </td>
+                                <td class="align-middle text-center">{{ ocorrencia.quantidade_horas }}</td>
+                                <td class="align-middle">{{ ocorrencia.pendencia.tipo.nome|e }}</td>
+                                <td class="align-middle">{{ ocorrencia.observacao|e }}</td>
+                              </tr>
+                            {% else %}
+                              <tr class="text-center">
+                                <td colspan="10">NENHUM REGISTRO DE OCORRÊNCIA REALIZADO ATÉ O MOMENTO!</td>
+                              </tr>
+                            {% endfor %}
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="10"></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col">
+                        <a class="btn btn-primary float-right" href="{{ url_for('bp_frequencia.visualizar_frequencia_funcionario', txt_funcionario_id=funcionario.id, operacao='VISUALIZAR') }}">ADICIONAR</a>
+                      </div>
+                    </div>
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+
+        
+        {# 
+           
+        
+        <div class="preview-funcionarios my-5">
+          <div class="funcionarios mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="funcionariosCollapse">
+              <h5 class="h4" id="id-titulo-resultado">Lista de Pendências para Incluir</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <div class="rounded shadow">
+              <div class="card border-0 pb-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse" role="button"
+                  aria-expanded="false" aria-controls="funcionariosCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE PENDÊNCIAS PARA PREENCHER</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="">AÇÕES</th>
+                            <th>Código</th>
+                            <th>Sigla</th>
+                            <th>Nome da pendência</th>
+                            <th>Descrição</th>                            
+                            <!-- <th>Status</th> -->
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="#id-titulo-pontos">Incluir</a>
+                              <a class="btn btn-danger" href="#id-titulo-resultado"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle">00022</td>
+                            <td class="align-middle">EXTRA</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">Indicação de horas extra</a></td>
+                            <td class="align-middle">Horas extras podem ser pagas em pecúnia ou para inclusão no banco de horas,
+                              ambas devem ser autorizadas pelo o gestor da unidade de trabalho. Somente pode ser realizado com devida
+                              autorização.
+                            </td>
+                            <!-- <td class="align-middle">Ativo</td> -->
+                          </tr>
+                          <tr>
+                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="#id-titulo-pontos">Incluir</a>
+                              <a class="btn btn-danger" href="#id-titulo-resultado"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle">00023</td>
+                            <td class="align-middle">NMPTO</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">Não marcação de ponto</a></td>
+                            <td class="align-middle">Não marcações de ponto (NMPTO) sem a devida justificativa implicará em descontos. Os descontos ocorrerão da seguinte
+                            forma</td>
+                            <!-- <td class="align-middle">Ativo</td> -->
+                          </tr>
+                          <tr>                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="#id-titulo-resultado">Incluir</a>
+                              <a class="btn btn-danger" href="#id-titulo-resultado"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle">00024</td>
+                            <td class="align-middle">FALTA</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">Falta integral</a></td>
+                            <td class="align-middle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo mollitia, veritatis, labore ratione libero ea possimus itaque sit pariatur fugit, iste tempora. Voluptas doloribus molestias ipsam suscipit numquam libero debitis.</td>
+                            <!-- <td class="align-middle">Ativo</td> -->
+                          </tr>
+                          <tr>
+                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="#id-titulo-pontos">Incluir</a>
+                              <a class="btn btn-danger" href="#id-titulo-resultado"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle">00025</td>
+                            <td class="align-middle">SAIDA</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">Saída antecipada</a></td>
+                            <td class="align-middle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci porro sint sed quas corporis dignissimos voluptate iste harum ratione accusantium modi ea, cupiditate facilis totam enim quae obcaecati quidem ducimus.</td>
+                            <!-- <td class="align-middle">Ativo</td> -->
+                          </tr>
+                          <tr>
+                            
+                            <td class="text-nowrap align-middle">
+                              <a class="btn btn-primary mr-1" href="#id-titulo-pontos">Incluir</a>
+                              <a class="btn btn-danger" href="#id-titulo-resultado"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle">00026</td>
+                            <td class="align-middle">ATRASO</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">Atrado na entrada</a></td>
+                            <td class="align-middle">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed possimus deserunt architecto neque velit voluptatibus asperiores rerum accusantium quaerat molestiae doloribus, deleniti sit ipsum necessitatibus temporibus? Neque facere nam unde.</td>
+                            <!-- <td class="align-middle">Ativo</td> -->
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="5">
+                              <a class="btn btn-primary float-right" href="#id-titulo-enderecos">Adicionar</a>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+
+        #}
+
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

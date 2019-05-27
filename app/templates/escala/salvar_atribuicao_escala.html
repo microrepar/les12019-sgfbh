@@ -1,0 +1,320 @@
+{% extends "base.html" %} 
+
+{% block menu_escalas_active %}active{% endblock %}
+
+
+{% set atribuicao = resultado.entidades[-1] %}
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+   <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+     <h1 class="display-4">Atribuição de Escala<h1>
+         <p class="lead text-justify">
+           Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident
+           ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores
+           corporis.
+         </p>
+   </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %}
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+
+{%block conteudo %}
+
+<div class="container conteudo">
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados da atribuição</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right" 
+        href="{{ url_for('bp_funcionario.alterar_funcionario', operacao='PRE-ATUALIZAR') }}#id-titulo-jornadas ">
+        VOLTAR
+      </a>
+    </div>
+  </div>
+  <div class="dropdown-divider"></div>  
+  
+  <div class="rounded shadow bg-white px-3 pt-3 pb-1 mb-5">
+    <form action="{{ url_for('bp_escala.salvar_atribuicao_escala') }}" method="post">
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label for="txt-funcionario-matricula">Matricula</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-matricula" id="txt-funcionario-matricula" 
+              value="{{ atribuicao.funcionario.matricula }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-matricula" id="txt-funcionario-matricula" 
+              value="{{ atribuicao.funcionario.matricula }}">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="txt-funcionario-nome">Nome Funcionário</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{ atribuicao.funcionario.nome }}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{ atribuicao.funcionario.nome }}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-funcionario-cargo-nome">Cargo Funcionário</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-cargo-nome" id="txt-funcionario-cargo-nome" 
+              value="{{ atribuicao.funcionario.cargo.nome }}">
+          </div>
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">        
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-atribuicao-escala-id"  class="my-0">
+              <button type="submit" class="btn btn-warning btn-sm py-0 my-1" formmethod="POST" name="operacao" value="PRE-SALVAR"
+                id="btn-especificar-destino"><i class="fa fa-search" aria-hidden="true"></i></i></button>
+                Escala *
+            </label>
+            <select autofocus class="custom-select" name="txt-atribuicao-escala-id" id="txt-atribuicao-escala-id" onchange="especificarDestino()">
+              <option>Selecione uma escala de trabalho</option>
+              {% for escala in atribuicao._lista_escalas %}
+                {% if escala.id|e == atribuicao.escala.id|e %}
+                  <option selected value="{{ escala.id|e }}">{{ escala.nome|e }}</option>
+                {% else %}
+                  <option value="{{ escala.id|e }}">{{ escala.nome|e }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label for="text-atribuicao-data-inicio">Data início</label>
+            <input type="text" class="form-control data" name="text-atribuicao-data-inicio" id="text-atribuicao-data-inicio" 
+              value="{{ atribuicao.data_inicio_formatada }}" placeholder="__/__/_____">
+          </div>
+        </div> 
+        <div class="col-2">
+          <div class="form-group">
+            <label for="text-atribuicao-data-fim">Data fim</label>
+            <input type="text" class="form-control data" name="text-atribuicao-data-fim" id="text-atribuicao-data-fim" 
+              value="{{ atribuicao.data_fim_formatada }}" placeholder="__/__/_____">
+          </div>
+        </div> 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-atribuicao-status">Status da atribuição*</label>
+            <select class="custom-select" name="txt-atribuicao-status" id="txt-atribuicao-status">
+              {% for status in atribuicao._lista_status %}
+                {% if status.id|e == atribuicao.status.id|e %}
+                 <option selected value="{{ status.id|e }}">{{ status.nome|e }}</option>
+                {% else %}
+                  <option value="{{ status.id|e }}">{{ status.nome|e }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>      
+      <div class="row">
+        <div class="col-4">        
+          <div class="form-group">
+            <label for="txt-escala-data_cadastro">Data do Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-escala-data_cadastro" id="txt-escala-data_cadastro" value="{{ atribuicao.data_cadastro_formatada|e }}">
+            <input hidden type="text" class="form-control" name="txt-escala-data_cadastro" id="txt-escala-data_cadastro" value="{{ atribuicao.data_cadastro_formatada|e }}">
+          </div>        
+        </div>
+        <div class="col">        
+          <div class="form-group">
+            <label for="txt-escala-responsavel_cadastro">Responsável pelo Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-escala-responsavel_cadastro" id="txt-escala-responsavel_cadastro" value="{{ atribuicao.responsavel_cadastro }}">
+            <input hidden type="text" class="form-control" name="txt-escala-responsavel_cadastro" id="txt-escala-responsavel_cadastro" value="{{ atribuicao.responsavel_cadastro }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-atribuicao-escala-observacao">Observação</label>
+            <textarea class="form-control" name="txt-atribuicao-escala-observacao" id="txt-atribuicao-escala-observacao" rows="3"
+              value="{{ atribuicao.observacao }}">{{ atribuicao.observacao }}</textarea>
+          </div>
+        </div>
+      </div>      
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input hidden type="text" name="txt_escala_id" id="txt_escala_id" value="{{ atribuicao.escala.id }}">
+          <input hidden type="text" name="txt_funcionario_id" id="txt_funcionario_id" value="{{ atribuicao.funcionario.id }}">
+          <button type="submit" class="btn btn-primary float-right" name="operacao" formaction="" value="SALVAR"> <i class="fa fa-save"></i> SALVAR</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  
+  
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados da escala</h5>
+    </div>
+  </div>
+  <div class="dropdown-divider"></div>  
+  
+  <div class="rounded shadow bg-white px-3 pt-3 pb-1 mb-5">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-3"> 
+          <div class="form-group">
+            <label for="txt-escala-codigo">Código</label>
+            <input disabled type="text" class="form-control" name="txt-escala-codigo" id="txt-escala-codigo" value="{{ atribuicao.escala.codigo }}">
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="form-group">
+            <label for="txt-escala-nome">Nome da Escala</label>
+            <input disabled type="text" class="form-control" name="txt-escala-nome" id="txt-escala-nome" value="{{ atribuicao.escala.nome }}">
+          </div>
+        </div> 
+        <div class="col-2">
+          <div class="form-group">
+            <label for="txt-jornada-carga-horaria">Carga Horária</label>
+            <input disabled type="text" class="form-control" name="txt-jornada-carga-horaria" id="txt-jornada-carga-horaria" value="{{ atribuicao.escala.jornada.carga_horaria }}">
+          </div>
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">        
+        <div class="col-4">
+          <div class="form-group">
+            <div class="form-group">
+              <label for="txt-atribuicao-escala-turno-nome">Turno</label>
+              <input disabled type="text" class="form-control" name="txt-atribuicao-escala-turno-nome" id="txt-atribuicao-escala-turno-nome" 
+                value="{{ atribuicao.escala.turno.nome }}">
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-escala-status">Status da escala</label>
+            <input disabled type="text" class="form-control" name="txt-escala-status" id="txt-escala-status" value="{{ atribuicao.escala.status.nome }}">
+          </div>
+        </div>     
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-atribuicao-escala-jornada-nome">Jornada</label>
+            <input disabled type="text" class="form-control" name="txt-atribuicao-escala-jornada-nome" id="txt-atribuicao-escala-jornada-nome" 
+              value="{{ atribuicao.escala.jornada.nome }}">
+          </div>
+        </div>     
+      </div>      
+      <div class="row">
+        <div class="col-4">        
+          <div class="form-group">
+            <label for="txt-escala-data_cadastro">Data do Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-escala-data_cadastro" id="txt-escala-data_cadastro" value="{{ atribuicao.escala.data_cadastro_formatada|e }}">
+            <input hidden type="text" class="form-control" name="txt-escala-data_cadastro" id="txt-escala-data_cadastro" value="{{ atribuicao.escala.data_cadastro_formatada|e }}">
+          </div>        
+        </div>
+        <div class="col">        
+          <div class="form-group">
+            <label for="txt-escala-responsavel_cadastro">Responsável pelo Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-escala-responsavel_cadastro" id="txt-escala-responsavel_cadastro" value="{{ atribuicao.escala.responsavel_cadastro }}">
+            <input hidden type="text" class="form-control" name="txt-escala-responsavel_cadastro" id="txt-escala-responsavel_cadastro" value="{{ atribuicao.escala.responsavel_cadastro }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-escala-descricao">Descrição</label>
+            <textarea disabled class="form-control" name="txt-escala-descricao" id="txt-escala-descricao" rows="3">{{ atribuicao.escala.descricao }}</textarea>
+          </div>
+        </div>
+      </div>      
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+        </div>
+      </div>
+    </form>
+  </div>
+    
+  
+  <div class="preview-horario my-5">
+    <div class="horario mb-5">
+      <a data-toggle="collapse" href=".multi-collapse3" role="button" aria-expanded="false"
+        aria-controls="horarioCollapse">
+        <h5 class="h4" id="id-titulo-horarios">Horários da escala</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#horarioCollapse" role="button"
+            aria-expanded="false" aria-controls="horarioCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE HORÁRIOS -> qtde min de MPTO: {{ atribuicao.escala.jornada.quantidade_minima_mpto}} | 
+              qtde max de dias ativo: {{ atribuicao.escala.jornada.quantidade_maxima_dias }} |
+              dias cadastrados e ativos: {{ atribuicao.escala.qtde_horario_dia_ativo }}/{{ atribuicao.escala.jornada.quantidade_maxima_dias }} | total horas cadastradas:</h6>
+          </a>
+          <div class="collapse multi-collapse3 show" id="horarioCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Data Inclusão</th>
+                      <th>1º MPTO</th>
+                      <th>2º MPTO</th>
+                      <th>3º MPTO</th>
+                      <th>4º MPTO</th>
+                      <th>Dias da Semana</th>
+                      <th>Status</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    {% for horario in atribuicao.escala.horarios_dia %}
+                    <tr>
+                      <td class="align-middle">{{ horario.data_cadastro_formatada|e }}</td>
+                      <td class="align-middle">{{ horario.hora_ponto1|e }}</td>
+                      <td class="align-middle">{{ horario.hora_ponto2|e }}</td>
+                      <td class="align-middle">{{ horario.hora_ponto3|e }}</td>
+                      <td class="align-middle">{{ horario.hora_ponto4|e }}</td>
+                      <td class="align-middle text-center">{{ horario.dia_semana|e }}</td>
+                      <td class="align-middle">{{ horario.status.nome|e }}</td>
+                    </tr>
+                    {% endfor %}
+                  </body>
+                  <tfoot>
+                    <tr></tr>
+                  </tfoot>
+                </table>
+              </div>
+              {# 
+              <div class="row">
+                <div class="col mt-3">
+                  <a class="btn btn-primary float-right" href="{{ url_for('bp_escala.cadastrar_horario', txt_escala_id=atribuicao.escala.id, operacao='PRE-SALVAR') }}">ADICIONAR</a>
+                </div>
+              </div>
+              #}
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<!-- conteudo -->
+
+{% block scripts %}
+  <script>
+    function especificarDestino(){
+      document.getElementById("btn-especificar-destino").click();
+    };
+
+    $('.data').mask('00/00/0000');
+  </script>
+{% endblock %}

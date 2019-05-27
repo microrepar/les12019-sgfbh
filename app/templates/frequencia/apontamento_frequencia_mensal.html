@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block menu_frequencias_active %}active{% endblock %}
+
+{% set espelho_mensal = resultado.entidades[-1] %}
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container-fluid conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Apontamento de Frequência Mensal<h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam
+              aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas
+              voluptatum?
+            </p>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <h5 class="h4 mb-0">Dados do Funcionário</h5>
+          </div> 
+          <div class="col ">
+            <a class="btn btn-primary float-right" href="#">IMPRIMIR</a>
+            <a class="btn btn-primary float-right mx-1" href="{{ url_for('bp_frequencia.frequencias', operacao='APONTAR') }}#lista-funcionarios">VOLTAR</a>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-consulta">
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="id-numero-matricula">Matricula:</label>
+                <input disabled type="number" class="form-control" id="id-numero-matricula" min="1" 
+                  value="{{ espelho_mensal.funcionario.matricula|e }}">
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="form-group">
+                <label for="txt-funcionario-nome">Nome do Funcionário:</label>
+                <input disabled type="text" class="form-control" name="txt-funcionario-nome"
+                  id="txt-funcionario-nome" placeholder="" value="{{ espelho_mensal.funcionario.nome|e }}">
+              </div>
+            </div>
+            
+            <input hidden type="text" name="txt_funcionario_id" id="txt_funcionario_id" value="{{ espelho_mensal.funcionario.id|e }}">
+            <input hidden type="text" name="txt_espelho_mensal_id" id="txt_espelho_mensal_id" value="{{ espelho_mensal.id|e }}">
+            
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for="txt-espelho-mensal-mes_referencia" class="my-0">
+                  <button type="submit" class="btn btn-warning btn-sm py-0 my-1" formaction="{{url_for('bp_frequencia.apontamento_frequencia_mensal')}}" formmethod="POST" name="operacao" value="PRE-AVALIAR"
+                    id="btn-especificar-mes-referencia"><i class="fa fa-search" aria-hidden="true"></i></i>
+                  </button>
+                  Mês de Referência:</label>
+                <select class="form-control" name="txt-espelho-mensal-mes_referencia" id="txt-espelho-mensal-mes_referencia" onchange="especificarMesReferencia()">
+                  <option></option>
+                  {% for i, mes in espelho_mensal._meses_do_ano %}
+                    {% if i|e == espelho_mensal.mes_referencia|e %}
+                      <option selected value="{{ i|e }}">{{ mes|e }}</option>
+                    {% else %}
+                      <option value="{{ i|e }}">{{ mes|e }}</option>                        
+                    {% endif %}                    
+                  {% endfor %}
+                </select>
+              </div>              
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="txt-espelho-mensal-ano_referencia">Ano Referência</label>
+                <input type="text" class="form-control" id="txt-espelho-mensal-ano_referencia" name="txt-espelho-mensal-ano_referencia"
+                  value="{{ espelho_mensal.ano_referencia }}">
+              </div>
+            </div>
+          </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->          
+        </form>
+        <!-- fim form consulta funcionário -->
+
+
+        <div class="preview-funcionarios my-5">
+          <div class="funcionarios mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="funcionariosCollapse">
+              <h5 class="h4" id="id-titulo-pontos">Espelho de Pontos</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <div class="rounded shadow">
+              <div class="card border-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse" role="button"
+                  aria-expanded="false" aria-controls="funcionariosCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DAS MARCAÇÕES DE PONTO - 
+                    {% for i, mes in espelho_mensal._meses_do_ano %}
+                      {% if i|e == espelho_mensal.mes_referencia|e %}
+                        {{ mes|e|upper }}                    
+                      {% endif %}
+                    {% endfor %}
+                    DE {{ espelho_mensal.ano_referencia }}
+                  </h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                  <div class="card-body pb-0">
+                    <div class="table-responsive table-hover mx-0">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-nowrap">Ações</th>
+                            <th class="text-nowrap">PD-D</th>
+                            <th class="text-nowrap">PD-C</th>
+                            <th class="text-nowrap">Data</th>
+                            <th class="text-nowrap">Dia da semana</th>
+                            <th class="text-nowrap">Tipo</th>
+                            {% for i in range(1, espelho_mensal.maior_numero_pontos() + 1) %}
+                              <th class="text-nowrap text-center">Hr{{ i|e }}</th>
+                              <th class="text-nowrap text-center">Rel{{ i|e }}</th>
+                            {% endfor %}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for espelho_dia in espelho_mensal.espelhos_diarios|sort(attribute='id') %}                             
+                          <tr id="{{ espelho_dia.data_formatada }}">
+                            <td class="align-middle">
+                              <a class="btn btn-primary btn-sm" href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=espelho_dia.id, operacao='AVALIAR') }}"><i
+                                  class="fa fa-paperclip fa-2x" aria-hidden="true"></i></a>
+                            </td>
+                            <td class="align-middle text-nowrap">
+                              <ul class="px-2 list-unstyled">
+                                {% for ocorrencia in espelho_dia.ocorrencias if ocorrencia.pendencia.tipo.nome != 'CRÉDITO' %}
+                                  {% if ocorrencia.status.nome == 'PENDENTE' %}
+                                  <li class="text-danger">
+                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                    <a href="#id-titulo-pontos">{{ ocorrencia.pendencia.sigla|e }}</a>
+                                  </li>
+                                  {% else %}
+                                  <li class="text-success">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <a href="#id-titulo-pontos">{{ ocorrencia.pendencia.sigla|e }}</a>
+                                  </li>
+                                  {% endif %}
+                                {% endfor %}
+                              </ul>
+                            </td>
+                            <td class="align-middle text-nowrap text-success">
+                              <ul class="px-2">
+                                {% for ocorrencia in espelho_dia.ocorrencias if ocorrencia.pendencia.tipo.nome == 'CRÉDITO'%}
+                                  {% if ocorrencia.status.nome == 'PENDENTE' %}
+                                  <li class="text-danger">
+                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                    <a href="#id-titulo-pontos">{{ ocorrencia.pendencia.sigla|e }}</a>
+                                  </li>                                  
+                                  {% else %}
+                                  <li class="text-success">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <a href="#id-titulo-pontos">{{ ocorrencia.pendencia.sigla|e }}</a>
+                                  </li>
+                                  {% endif %}
+                                {% endfor %}
+                              </ul>
+                            </td>
+                            <td class="align-middle">{{ espelho_dia.data_formatada }}</td>
+                            <td class="align-middle text-center">{{ espelho_dia.dia_semana }}</td>
+                            <td class="text-nowrap align-middle">não definido</td>
+                            {% for ponto in espelho_dia.pontos|sort(attribute='data_hora') if ponto.incluir %}                                
+                              <td class="align-middle font-weight-bold">{{ ponto.hora_formatada }}</td>
+                              <td class="align-middle text-secondary">{{ponto.relogio}}</td>
+                            {% endfor %}
+                            {% if (espelho_mensal.maior_numero_pontos() - espelho_dia.pontos|count) > 0 %}
+                              {% for _ in range(espelho_mensal.maior_numero_pontos() - espelho_dia.pontos|count) %}
+                                <td class="align-middle"></td>
+                                <td class="align-middle"></td>
+                              {% endfor %}
+                            {% endif %}
+                          </tr>                          
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="{{ espelho_mensal.maior_numero_pontos() * 2 + 6 }}">
+                              <nav aria-label="Page navigation example">
+                                <ul class="pagination d-flex justify-content-center mt-2 mb-0">
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Previous</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Next</a></li>
+                                </ul>
+                              </nav>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- conteudo-principal -->
+      <!-- <div class="col-md-4 conteudo-secundario px-3 my-3 ">
+              <h5 class="h4">Conteúdo Secundário</h5>
+              <div class="dropdown-divider"></div>
+              <div class="cor-base2 rounded p-3">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis iste sed sapiente, autem
+                      quaerat
+                      dolore voluptatibus beatae ratione nemo reiciendis nam quos, accusantium non accusamus itaque
+                      consequatur
+                      laudantium natus ipsam. </p>
+              </div>
+          </div> -->
+      <!-- conteudo-secundario -->
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  function especificarMesReferencia() {
+    document.getElementById("btn-especificar-mes-referencia").click();
+  };
+
+  $('.data').mask('00/00/0000');
+</script>
+{% endblock %}

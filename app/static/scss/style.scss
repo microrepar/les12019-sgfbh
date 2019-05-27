@@ -1,0 +1,312 @@
+// //BASE AZUL
+// $corBase1 : #4A148C;
+// $corBase1Transp : #4A148C !important;
+// $corBase2 : #CE93D8;
+// $corBase3 : #E1BEE7;
+// $corBase4 : #E1BEE7;
+
+// // BASE MARROM LIGHT
+// $corBase1 : #e0884d;
+// $corBase1Transp : #e0884de6 !important;
+// $corBase2 : #ffccaaa6;
+// $corBase3 : #ffccaa40;
+// $corBase4 : #ffccaa00;
+
+// // BASE MARROM
+// $corBase1: #3e2723;
+// $corBase1Transp: #3e2723 !important;
+// $corBase2: #b89b91;
+// $corBase3: #fafafa;
+// $corBase4: $corBase3;
+
+// // BASE LARANJA PROFUNDO
+// $corBase1 : #BF360C;
+// $corBase1Transp : #BF360Cd4 !important;
+// $corBase2 : #FF7043;
+// $corBase3 : #FFCCBC;
+// $corBase4 : #FFCCBC;
+
+// //BASE LARANJA
+// $corBase1 : #E65100;
+// $corBase1Transp : #E65100 !important;
+// $corBase2 : #FFB74D;
+// $corBase3 : #FFE0B2;
+// $corBase4 : #FFE0B2;
+
+// BASE CINZA
+$corBase1 : #3b302b;
+$corBase1Transp : #6b5953 !important;
+$corBase2 : #a09e9e;
+$corBase3 : #e2e2e2;
+$corBase4 : #e2e2e2;
+
+// // BASE CINZA AZULADO
+// $corBase1 : #263238;
+// $corBase1Transp : #263238 !important;
+// $corBase2 : #90A4AE;
+// $corBase3 : #CFD8DC;
+// $corBase4 : #CFD8DC;
+
+// // BASE VERDE
+// $corBase1 : #1B5E20;
+// $corBase1Transp : #1B5E20 !important;
+// $corBase2 : #66BB6A;
+// $corBase3 : #C8E6C9;
+// $corBase4 : #C8E6C9;
+
+// // BASE VERDE LIGHT
+// $corBase1 : #33691E;
+// $corBase1Transp : #33691E !important;
+// $corBase2 : #7CB342;
+// $corBase3 : #C5E1A5;
+// $corBase4 : #C5E1A5;
+
+// // BASE TEAL
+// $corBase1 : #004D40;
+// $corBase1Transp : #004D40 !important;
+// $corBase2 : #4DB6AC;
+// $corBase3 : #B2DFDB;
+// $corBase4 : #B2DFDB;
+
+// // BASE CYAN
+// $corBase1 : #006064;
+// $corBase1Transp : #006064 !important;
+// $corBase2 : #4DD0E1;
+// $corBase3 : #B2EBF2;
+// $corBase4 : #B2EBF2;
+
+// // BASE AZUL LIGHT
+// $corBase1 : #01579B;
+// $corBase1Transp : #01579B !important;
+// $corBase2 : #4FC3F7;
+// $corBase3 : #B3E5FC;
+// $corBase4 : #B3E5FC;
+
+// BASE PINK
+// $corBase1 : #880E4F;
+// $corBase1Transp : #880E4F !important;
+// $corBase2 : #F06292;
+// $corBase3 : #F8BBD0; 
+// $corBase4 : #F8BBD0;
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+/*Estilização do plano de fundo do site*/
+body {
+  height: 100%;
+  background-color: $corBase3;
+}
+
+.conteudo {
+  min-height: 56%;
+}
+
+.cor-base2 {
+  background-color: $corBase2;
+}
+
+.cor-base4 {
+  background-color: $corBase4;
+}
+
+/*Estilizaçã da section header*/
+section.cabecalho .menu-superior .nav a {
+  color: white;
+  font-size: 1rem;
+}
+
+section.cabecalho {
+  background-color: $corBase1;
+  text-decoration-color: white;
+}
+
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #ffffff;
+  background-color: $corBase1;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: black;
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  margin-bottom: 0.2rem;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: white;
+  background: $corBase1;
+}
+
+/*Estilização compontente nav interno ao navbar menu-toggle*/
+.nav-item a.nav-link {
+  color: black;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  transition: all 0.4s ease;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  text-decoration: none;
+  color: white !important;
+  background-color: $corBase1;
+}
+
+/*Estilização do botão default*/
+button.btn.btn-default {
+  background-color: $corBase1;
+  color: white;
+}
+
+.btn:focus,
+.btn.focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.26);
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.26);
+}
+
+/*Estilização dos headers do cards*/
+.cor-base1 {
+  background-color: $corBase1;
+}
+
+/*Estilização dos divisores*/
+.dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 3px solid $corBase1;
+}
+
+/*Estilização da section footer .rodape*/
+.rodape a {
+  margin-top: 0;
+  margin-bottom: 0rem;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.rodape p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Estilização da cor dos links azuis
+.card-header {
+  text-decoration: none;
+  color: black;
+}
+
+h4,
+.h4 {
+  font-size: 1.5rem;
+  color: black;
+}
+
+/*Estilização responsiva para telas pequenas*/
+
+@media (max-width: 980px){
+  .navbar-light .navbar-nav .nav-link {
+    color: black;
+    font-size: .9rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .conteudo {
+    margin-top: 100px;
+  }
+
+  .navbar-brand img {
+    width: 190px;
+  }
+
+  .menu-principal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    clear: both;
+  }
+
+  .jumbotron.text-justify.py-2.px-3.cor-base4 {
+    margin-top: 4rem;
+  }
+
+  .container-fluid.menu-principal.bg-light.text-center {
+    background-color: $corBase1Transp;
+  }
+
+  i.fa.fa-bars {
+    color: white;
+    font-size: 1.8rem;
+  }
+
+  .navbar-collapse .dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 3px solid #fff;
+  }
+
+  .nav-link:focus,
+  .nav-link:hover {
+    color: white !important;
+    background-color: #000000 !important;
+  }
+
+  .nav-item a.nav-link {
+    color: white;
+  }
+
+  .navbar-light .navbar-nav .nav-link:focus,
+  .navbar-light .navbar-nav .nav-link:hover {
+    color: white;
+  }
+
+  .navbar-light .navbar-nav .show > .nav-link,
+  .navbar-light .navbar-nav .active > .nav-link,
+  .navbar-light .navbar-nav .nav-link.show,
+  .navbar-light .navbar-nav .nav-link.active {
+    background-color: #000000;
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    color: white;
+  }
+
+  .nav{
+    display: block;
+  }
+ 
+}
+
+@media (max-width: 576px) {
+  .conteudo {
+    margin-top: 100px;
+  }
+
+  .navbar-brand img {
+    width: 150px;
+  }
+
+  .nav-item a.nav-link {
+    font-size: 0.9rem;
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    font-size: 0.9rem;
+  }
+}

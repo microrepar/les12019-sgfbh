@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+
+{% block menu_frequencias_active %}active{% endblock %}
+
+
+{% set espelho_dia = resultado.entidades[-1] %}
+
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container-fluid conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Frequência Diária<h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam
+              aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas
+              voluptatum?
+            </p>
+        </div>
+
+        <div class="row  d-flex align-items-baseline">
+          <div class="col">
+            <h5 class="h4 mb-0">Dados da Frequência Diária</h5>
+          </div> 
+          <div class="col ">
+            {% if current_user.is_authenticated  %}
+            <a class="btn btn-primary float-right mr-1"
+              href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+              VOLTAR
+            </a>            
+            {% else %}
+            <a class="btn btn-primary float-right mr-1"
+              href="{{ url_for('bp_frequencia.visualizar_frequencia_funcionario', txt_espelho_mensal_id=espelho_dia.espelho_mensal.id, operacao='VISUALIZAR') }}#{{espelho_dia.data_formatada}}">
+              VOLTAR
+            </a>
+            {% endif %}            
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-consulta">
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="txt-funcionario-matricula">Matricula:</label>
+                <input disabled type="number" class="form-control" name="txt-funcionario-matricula"
+                  id="txt-funcionario-matricula" min="1" value="{{ espelho_dia.funcionario.matricula|e }}">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="txt-funcionario-nome">Nome do Funcionário:</label>
+                <input disabled type="text" class="form-control" name="txt-funcionario-nome"
+                  id="txt-funcionario-nome" placeholder="" value="{{ espelho_dia.funcionario.nome|e }}">
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="txt-funcionario-cargo">Cargo</label>
+                <input disabled type="text" class="form-control" name="txt-funcionario-cargo" id="txt-funcionario-cargo" value="{{ espelho_dia.funcionario.cargo.nome }}">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="txt-espelho-diario-data">Data Referência</label>
+                <input disabled type="text" class="form-control" id="txt-espelho-diario-data" value="{{ espelho_dia.data_formatada }}">
+              </div>
+            </div>
+          </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+        
+          
+          <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+            Filtrar</button>
+          <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+            Limpar</button> -->
+        </form>
+        <!-- fim form consulta funcionário -->
+
+
+        <div class="preview-pontos-diaria my-5">
+          <div class="pontos-diaria mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="pontos-diariaCollapse">
+              <h5 class="h4" id="id-titulo-pontos">Pontos do Dia {{ espelho_dia.data_formatada }}</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <div class="rounded shadow">
+              <div class="card border-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#pontos-diariaCollapse" role="button"
+                  aria-expanded="false" aria-controls="pontos-diariaCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE MARCAÇÃO DIÁRIA</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="pontos-diariaCollapse">
+                  <div class="card-body pb-0">
+                    <div class="table-responsive mx-0">
+                      <table class="table table-hover mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Ações</th>
+                            <th class="text-nowrap text-center">Incluir</th>
+                            <th class="text-nowrap text-center">Ordem</th>
+                            <th class="text-nowrap text-center">Horário</th>
+                            <th class="text-nowrap text-center">Relógio</th>
+                            <th class="text-nowrap text-center">Status</th>
+                            <th class="text-nowrap text-center">Responsável</th>
+                            <th class="text-nowrap text-center">Data Cadastro</th>
+                            <th class="text-nowrap text-center">Observação</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for ponto in espelho_dia.pontos|sort(attribute='data_hora') %}                            
+                          <tr>
+                            <form action="{{ url_for('bp_ponto.atualizar_ponto') }}" method="post">
+                              <td class="text-nowrap text-center">
+                                {% if current_user.is_authenticated %}
+                                <input hidden type="text" name="txt_ponto_id" id="txt_ponto_id" value="{{ ponto.id }}">
+                                <input hidden type="text" name="txt_espelho_diario_id" id="txt_espelho_diario_id" value="{{ espelho_dia.id }}">
+                                <button type="submit" name="operacao" value="INCLUIR" class="btn btn-primary"><i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                                <button type="submit" name="operacao" value="PRE-ATUALIZAR" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                <button type="submit" name="operacao" value="PRE-EXCLUIR" class="btn btn-danger" formaction="{{ url_for('bp_ponto.excluir_ponto') }}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                {% endif %}
+                              </td>
+                              <td class="align-middle text-center">
+                                <div class="form-check">
+                                  {% if ponto.incluir %}
+                                  <input disabled checked class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+                                  <input hidden checked class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+                                  {% else %}
+                                  <input disabled class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+                                  <input hidden class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+                                  {% endif %}                                  
+                                </div>
+                              </td>
+                            </form>
+                            {% if ponto.status.id|e == '1' or ponto.status.id|e == '2' %}
+                            <td class="align-middle text-center">1</td>
+                            <td class="align-middle text-center">{{ ponto.hora_formatada|e }}</td>
+                            <td class="align-middle text-center">{{ ponto.relogio|e }}</td>
+                            <td class="align-middle text-center">{{ ponto.status.nome|e }}</td>
+                            <td class="align-middle text-center">{{ ponto.responsavel_cadastro|e }}</td>
+                            <td class="align-middle text-center">{{ ponto.data_cadastro_formatada|e }}</td>
+                            <td class="align-middle text-justify">{{ ponto.observacao|e }}</td>
+                            {% else %}
+                            <td class="align-middle text-danger text-center">1</td>
+                            <td class="align-middle text-danger text-center">{{ ponto.hora_formatada|e }}</td>
+                            <td class="align-middle text-danger text-center">{{ ponto.relogio|e }}</td>
+                            <td class="align-middle text-danger text-center">{{ ponto.status.nome|e }}</td>
+                            <td class="align-middle text-danger text-center">{{ ponto.responsavel_cadastro|e }}</td>
+                            <td class="align-middle text-danger text-center">{{ ponto.data_cadastro_formatada|e }}</td>
+                            <td class="align-middle text-danger text-justify">{{ ponto.observacao|e }}</td>                            
+                            {% endif %}                            
+                          </tr>
+                          {% else %}
+                            <tr>
+                              <td colspan="9" class="text-center">
+                                NENHUM REGISTRO DE PONTO REALIZADO ATÉ O MOMENTO!
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="9" ></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col mt-2">
+                        <a class="btn btn-primary float-right"
+                          href="{{ url_for('bp_ponto.cadastrar_ponto', txt_espelho_diario_id=espelho_dia.id, operacao='PRE-SALVAR') }}">
+                          <i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR
+                        </a>
+                        {% if current_user.is_authenticated  %}
+                        <a class="btn btn-primary float-right mr-1"
+                          href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+                          VOLTAR
+                        </a>
+                        {% else %}
+                        <a class="btn btn-primary float-right mr-1"
+                          href="{{ url_for('bp_frequencia.visualizar_frequencia_funcionario', txt_espelho_mensal_id=espelho_dia.espelho_mensal.id, operacao='VISUALIZAR') }}#{{espelho_dia.data_formatada}}">
+                          VOLTAR
+                        </a>
+                        {% endif %}
+                      </div>
+                      
+                    </div>
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+
+
+        <div class="preview-pendencias my-5">
+          <div class="pendencias mb-5">
+            <div class="row  d-flex align-items-baseline">
+              <div class="col">
+                <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+                  aria-controls="pendenciasCollapse">
+                  <h5 class="h4 mb-0" id="id-titulo-ocorrencias">Ocorrências</h5>
+                </a>
+              </div>
+              <!-- <div class="col ">
+                <a class="btn btn-primary float-right"
+                  href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+                  VOLTAR
+                </a>
+              </div> -->
+            </div>
+            
+            <div class="dropdown-divider"></div>
+        
+            <div class="rounded shadow">
+              <div class="card border-0 pb-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#ocorrenciasCollapse" role="button"
+                  aria-expanded="false" aria-controls="ocorrenciasCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DAS OCORRÊNCIAS LANÇADAS</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="ocorrenciasCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Ações</th>  
+                            <th class="">Nº</th>
+                            <th class="text-nowrap">Data inclusão</th>
+                            <th>Pendência</th>
+                            <th>Usuário</th>
+                            <th>Status</th>
+                            <th>Cobrança</th>
+                            <th>Desc. Horas</th>
+                            <th>Tipo</th>
+                            <th>Observação</th>
+                          </tr>
+                        </thead>
+        
+                        <tbody>
+                          {% for ocorrencia in espelho_dia.ocorrencias %}
+                          <tr>        
+                            <td class="text-nowrap align-middle">
+                            
+                              <a href="{{ url_for('bp_solicitacao.cadastrar_solicitacao',txt_ocorrencia_id=ocorrencia.id, operacao='PRE-SALVAR') }}"
+                                class="btn btn-primary"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+                              <a href="{{ url_for('bp_ocorrencia.atualizar_ocorrencia', txt_ocorrencia_id=ocorrencia.id, operacao='PRE-ATUALIZAR') }}"
+                                class="btn btn-primary"><i class="fa fa-pencil fa-1x" aria-hidden="true"></i></a>
+                              <a href="{{ url_for('bp_ocorrencia.excluir_ocorrencia', txt_ocorrencia_id=ocorrencia.id, operacao='PRE-EXCLUIR') }}"
+                                class="btn btn-danger"><i class="fa fa-trash-o fa-1x" aria-hidden="true"></i></a>
+                            
+                            </td>
+                            <td class="align-middle">{{ ocorrencia.id|e }}</td>
+                            <td class="align-middle">{{ ocorrencia.data_cadastro_formatada|e }}</td>
+                            <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">{{ ocorrencia.pendencia.sigla|e }}</a></td>
+                            <td class="align-middle">{{ ocorrencia.responsavel_cadastro|e }}</td>
+                            <td class="align-middle">{{ ocorrencia.status.nome|e }}</td>
+                            <td class="align-middle text-center">
+                              {% if ocorrencia.cobranca %}
+                                <div class="form-check">
+                                  <input disabled checked class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1"
+                                    aria-label="...">
+                                </div>
+                              {% else %}
+                                <div class="form-check">
+                                  <input disabled class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1"
+                                    aria-label="...">
+                                </div>
+                              {% endif %}
+                            </td>
+                            <td class="align-middle text-center">{{ ocorrencia.quantidade_horas }}</td>
+                            <td class="align-middle">{{ ocorrencia.pendencia.tipo.nome|e }}</td>
+                            <td class="align-middle">{{ ocorrencia.observacao|e }}</td>
+                          </tr>
+                          {% else %}
+                            <tr class="text-center">
+                              <td colspan="10">NENHUM REGISTRO DE OCORRÊNCIA REALIZADO ATÉ O MOMENTO!</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="10"></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="row">
+                      <div class="col mt-2">
+                        <a class="btn btn-primary float-right" href="{{ url_for('bp_ocorrencia.cadastrar_ocorrencia', txt_espelho_diario_id=espelho_dia.id, operacao='PRE-SALVAR') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR</a>
+                        {% if current_user.is_authenticated  %}
+                        <a class="btn btn-primary float-right mr-1 "
+                          href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+                          VOLTAR
+                        </a>
+                        {% else %}
+                        <a class="btn btn-primary float-right mr-1"
+                          href="{{ url_for('bp_frequencia.visualizar_frequencia_funcionario', txt_espelho_mensal_id=espelho_dia.espelho_mensal.id, operacao='VISUALIZAR') }}#{{espelho_dia.data_formatada}}">
+                          VOLTAR
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="preview-solicitacoes my-5">
+          <div class="solicitacoes mb-5">
+            <div class="row d-flex align-items-baseline">
+              <div class="col">
+                <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+                  aria-controls="solicitacoesCollapse">
+                  <h5 class="h4 mb-0" id="id-titulo-pendencias">Solicitações</h5>
+                </a>
+              </div>
+              <!-- <div class="col ">
+                <a class="btn btn-primary float-right"
+                  href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+                  VOLTAR
+                </a>
+              </div> -->
+            </div>
+            
+            <div class="dropdown-divider"></div>
+        
+            <div class="rounded shadow">
+              <div class="card border-0 ">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#solicitacoesCollapse" role="button"
+                  aria-expanded="false" aria-controls="solicitacoesCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE SOLICITAÇÕES</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="solicitacoesCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="">Ações</th>
+                            <th class="text-nowrap">Ocorr. Nº</th>
+                            <th class="text-nowrap">Data solicitação</th>
+                            <th>Pendência</th>
+                            <th>Usuário</th>
+                            <th>Status</th>
+                            <th>Decisão</th>
+                            <th>Data</th>
+                            <th>Decisor</th>
+                            <th>Observação</th>
+                          </tr>
+                        </thead>        
+                        <tbody>
+                          {% for ocorrencia in espelho_dia.ocorrencias %}
+                            {% for solicitacao in ocorrencia.solicitacoes %}
+                              <tr>        
+                                <td class="text-nowrap align-middle">
+                                  {% if current_user.is_authenticated and solicitacao.despacho is none %}
+                                  <a href="{{ url_for('bp_solicitacao.cadastrar_despacho', txt_solicitacao_id=solicitacao.id, operacao='PRE-SALVAR') }}" 
+                                    class="btn btn-success"><i class="fa fa-gavel" aria-hidden="true"></i></a>
+                                  <a href="#id-titulo-pendencias" class="btn btn-warning"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_solicitacao.atualizar_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-ATUALIZAR') }}" 
+                                    class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_solicitacao.excluir_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-EXCLUIR') }}" 
+                                    class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                  {% elif current_user.is_authenticated and solicitacao.despacho %}
+                                  <a href="{{ url_for('bp_solicitacao.atualizar_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-ATUALIZAR') }}" 
+                                  class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_solicitacao.excluir_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-EXCLUIR') }}" 
+                                  class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                  {% elif solicitacao.despacho is none %}
+                                  <a href="{{ url_for('bp_solicitacao.atualizar_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-ATUALIZAR') }}" 
+                                  class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_solicitacao.excluir_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-EXCLUIR') }}" 
+                                  class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                  {% endif %}
+                                </td>
+                                <td class="text-nowrap align-middle text-center">{{ ocorrencia.id|e }}</td>
+                                <td class="align-middle">{{ solicitacao.data_cadastro_formatada|e }}</td>
+                                <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">{{ocorrencia.pendencia.sigla|e}}</a></td>
+                                <td class="align-middle">{{ solicitacao.responsavel_cadastro|e }}</td>
+                                <td class="align-middle">{{ solicitacao.status.nome|e }}</td>
+                                {% if solicitacao.despacho %}
+                                <td class="align-middle">{{ solicitacao.despacho.decisao.nome }}</td>
+                                  <td class="align-middle">{{ solicitacao.despacho.data_cadastro_formatada }}</td>
+                                  <td class="align-middle">{{ solicitacao.despacho.responsavel_cadastro }}</td>
+                                {% else %}
+                                <td class="align-middle text-nowrap">sem despacho</td>
+                                  <td class="align-middle text-nowrap"></td>
+                                  <td class="align-middle text-nowrap"></td>
+                                {% endif %}
+                                <td class="align-middle text-nowrap">{{ solicitacao.descricao|e }}</td>
+                              </tr>
+                            {% else %}
+                              <tr class="">
+                                <td colspan="10" class="text-center">NÃO HÁ REGISTROS DE SOLICITAÇÃO ATÉ O MOMENTO PARA A OCORRÊNCIA 
+                                  <span class="font-weight-bold">Nº {{ ocorrencia.id|e }}</span>.</td>
+                              </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr class="">
+                              <td colspan="10" class="text-center">NÃO HÁ REGISTROS DE SOLICITAÇÃO ATÉ O MOMENTO</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="10"></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="row">
+                      {# 
+                      <div class="col mt-2">
+                        <a class="btn btn-primary float-right" href="{{ url_for('bp_solicitacao.cadastrar_solicitacao', operacao='PRE-SALVAR') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR</a>
+                        <a class="btn btn-primary float-right mr-1"
+                          href="{{ url_for('bp_frequencia.apontamento_frequencia_mensal',txt_espelho_mensal_id=espelho_dia.espelho_mensal.id,operacao='AVALIAR') }}#{{espelho_dia.data_formatada}}">
+                          VOLTAR
+                        </a>
+                      </div>
+                      #}
+                    </div>
+        
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- conteudo-principal -->
+      <!-- <div class="col-md-4 conteudo-secundario px-3 my-3 ">
+              <h5 class="h4">Conteúdo Secundário</h5>
+              <div class="dropdown-divider"></div>
+              <div class="cor-base2 rounded p-3">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis iste sed sapiente, autem
+                      quaerat
+                      dolore voluptatibus beatae ratione nemo reiciendis nam quos, accusantium non accusamus itaque
+                      consequatur
+                      laudantium natus ipsam. </p>
+              </div>
+          </div> -->
+      <!-- conteudo-secundario -->
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="SGF - Banco de Horas"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>SGF - Banco de Horas</title>
+
+    <!-- Carrega o Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}"/>
+
+    <!-- Carrega as Icones da fonte awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"/>
+
+    <!-- Carrega folha de estilo personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+    <script language="javascript"></script>
+  </head>
+
+  <body>
+    <section class="cabecalho">
+      <header class="navegacao margin-ul-nav">
+        <div class="container-fluid menu-superior d-none d-md-block">
+          <div class="container-fluid">
+            <ul class="nav align-items-center justify-content-end">
+              {% if current_user.perfil == 'admin' %}
+              <li class="nav-item">
+                <a class="nav-link active" target="" href="" >Admin</a>
+              </li>                  
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" target="" href="{{ url_for('bp_main.func') }}">Funcionario</a>
+              </li>                  
+              {% endif %}
+
+              {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active" target="" href="{{ url_for('bp_autenticacao.logout') }}">Sair</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" target="" href="{{ url_for('bp_autenticacao.login') }}">Login</a>
+              </li>
+              {% endif %}
+              
+              <!-- {# 
+                {% if current_user.username %}
+                <li class="nav-item">
+                  <a class="nav-link mx-0" href="#!">
+                    {{ corrent_user.username }}
+                  </a>
+                </li>
+                <li class="nav-item mx-0">
+                  <a class="nav-link mx-0" href="#!">
+                    SAIR
+                  </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('bp_autenticacao.login') }}">
+                    LOGIN
+                  </a>
+                </li>
+                {% endif %}
+                #} -->
+              <li class="nav-item">
+                <form class="navbar-form navbar-right my-1 border-0">
+                  <div class="input-group input-group-md">
+                    <input type="text" class="form-control " placeholder="Pesquisar" aria-label="Pesquisar" 
+                    aria-describedby="basic-addon2"/>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-primary text-white border-0" type="button">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
+            <!-- ul.nav -->
+          </div>
+        </div>
+        <!-- container menu-superior -->
+        <div class="container-fluid menu-principal bg-light text-center">
+          <nav class="navbar navbar-expand-md navbar-light">
+            <div class="container-fluid margin-navbar">
+              <!-- teste margin -->
+              <a class="navbar-brand" href="{{ url_for('bp_main.home') }}">
+                <img src="{{ url_for('static', filename='images/logo-sgf.png') }}" alt="logo sgf" width="280"/>
+              </a>
+
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                                    
+                  {% if current_user.perfil == "admin" %}
+                  {# 
+                    <!-- {% include "menuAdmin.html" %} -->
+                  #}
+                   
+                    <li class="nav-item {% block menu_func_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_funcionario.funcionarios') }}">Funcionários</a>
+                    </li>
+                    <li class="nav-item {% block menu_usuarios_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_main.usuarios') }}">Usuários</a>
+                    </li>
+                    <li class="nav-item {% block menu_escalas_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_escala.escalas') }}">Escalas</a>
+                    </li>
+                    <li class="nav-item {% block menu_pendencias_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_ocorrencia.pendencias') }}">Pendências</a>
+                    </li>
+                    <li class="nav-item {% block menu_frequencias_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_frequencia.frequencias', operacao='APONTAR') }}">Frequências</a>
+                    </li>
+                    <li class="nav-item {% block menu_bancoDeHoras_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_aplicacao.banco_de_horas') }}">Banco de Horas</a>
+                    </li>
+                    <li class="nav-item {% block menu_compensacoes_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_aplicacao.compensacoes') }}">Compensações</a>
+                    </li>
+                    
+                  {% else %}
+                  {# 
+                    {% include "menuFunc.html" %}                     
+                  #}
+                    <li class="nav-item {% block menu_home_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_main.home') }}">Home<span
+                          class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item {% block menu_solicitacoes_active %}{% endblock %}">
+                      <a class="nav-link"
+                        href="{{ url_for('bp_solicitacao.consultar_solicitacoes', txt_funcionario_id='28', operacao='CONSULTAR_ID') }}">Solicitações</a>
+                    </li>
+                    <li class="nav-item {% block menu_ocorrencias_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_ocorrencia.ocorrencias_funcionario', txt_funcionario_id=28, operacao='FILTRAR') }}">Ocorrências</a>
+                    </li>
+                    <li class="nav-item {% block menu_frequencia_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_frequencia.visualizar_frequencia_funcionario', txt_funcionario_id=28, operacao='PRE-VISUALIZAR') }}">Frequência</a>
+                    </li>
+                    <li class="nav-item {% block menu_contato_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_main.contato') }}">Contato</a>
+                    </li>
+                    <li class="nav-item {% block menu_ajuda_active %}{% endblock %}">
+                      <a class="nav-link" href="{{ url_for('bp_main.ajuda') }}">Ajuda?</a>
+                    </li>
+                  {% endif %}
+                </ul>
+                <div class="dropdown-divider"></div>
+                <ul class="nav align-items-center d-block d-sm-block d-md-none lista-secundaria-interna">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#!">Portal da Transparência</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#!">Leis Municipais</a>
+                  </li>
+                  <!--inicio link de login do menu dropdown -->
+                  <!-- {# 
+                   
+                  {% if current_user.username %}
+                  <li class="nav-item">
+                    <a class="nav-link mx-0" href="#!">
+                      {{ current_user.username }}
+                    </a>
+                  </li>
+                  <li class="nav-item mx-0">
+                    <a class="nav-link mx-0" href="#!">
+                      SAIR
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('bp_autenticacao.login') }}">
+                      LOGIN
+                    </a>
+                  </li>
+                  {% endif %}
+                  #} -->
+                  <!--inicio link de login do menu dropdown -->
+                  <div class="dropdown-divider"></div>
+                  <li class="nav-item">
+                    <form class="navbar-form navbar-right my-3">
+                      <div class="input-group input-group-md">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Pesquisar"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                          >
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- container margin-navbar -->
+          </nav>
+          <!-- navbar -->
+        </div>
+        <!-- container menu-principal -->
+      </header>
+      <!-- navegacao -->
+    </section>
+    <!-- cabecalho -->
+    
+    <section class="conteudo">
+      {% block tituloConteudo %}
+      {% endblock %}
+
+      {% block alerta %}
+        {% with messages = get_flashed_messages() %}
+          {% for message in messages %}
+            {% if 'vindo' in message or 'sucesso' in message %}
+              <div class="mb-2">
+              {% include "alerta_success.html" %}
+              </div>
+            {% else %}
+              <div class="mb-2">
+              {% include "alerta_danger.html" %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      {% endblock %}
+
+      {% block conteudo %}      
+      {% endblock %}
+      
+      <!-- bloco para o conteudo extendido -->
+    </section>
+    <!-- conteudo -->
+
+    <section class="rodape cor-base2 cor-base1">
+      <footer>
+        <div class="container-fluid px-5 py-4 text-white">
+          <div class="row">
+            <div class="col-md-4 my-3">
+              <p class="h5">LINKS ÚTEIS</p>              
+              <a href="#">
+                <p>+ Fóruns</p>
+              </a>
+              <a href="#">
+                <p>+ Procon</p>
+              </a>
+              <a href="#">
+                <p>+ Poupatempo</p>
+              </a>
+              <a href="#">
+                <p>+ Delegacias e bases da PM</p>
+              </a>
+            </div>
+            <div class="col-md-4 my-3">
+              <p class="h5">FALE CONOSCO (SAC)</p>
+              <a href="#">
+                <p>Sistema de Frequência e Banco de Horas</p>
+              </a>
+              <a href="#">
+                <p>Rua Carlos Barattino, n. 908 - Vila Nova Mogilar, Mogi das Cruzes-SP</p>
+              </a>
+              <a href="#">
+                <p>Telefone: (11)-4699-2799</p>
+              </a>
+              <a href="#">
+                <p>Ouvidoria</p>
+              </a>
+              <a href="#">
+                <p>E-mail: ouvidoria@ouvidoria.com.br</p>
+              </a>
+              <a href="#">
+                <p>Telefone: 999</p>
+              </a>
+            </div>
+            <div class="col-md-4 my-3">
+              <p class="h5">SIGA - NOS</p>
+              <div class="row mt-3">
+                <div class="col d-flex d-inline ">
+                  <p class="text-white">
+                    <i class="mr-1 fa fa-youtube-square fa-2x" aria-hidden="true"></i>
+                  </p>
+                  <p class="text-white">
+                    <i class="mr-1 fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+                  </p>
+                  <p class="text-white">
+                    <i class="mr-1 fa fa-flickr fa-2x" aria-hidden="true"></i>
+                  </p>
+                  <p class="text-white">
+                    <i class="mr-1 fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+                  </p>
+                </div>
+              </div>
+              <figure class="mt-4">
+                <img src="{{ url_for('static', filename='images/logo-sgf-branco.png') }}" alt="logo sgf" width="230"/>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </section>
+    <!-- rodape -->
+
+    <script type="text/javascript" DEFER="DEFER">      
+    </script>
+    
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+    
+  </body>
+</html>

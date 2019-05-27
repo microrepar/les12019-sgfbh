@@ -1,0 +1,252 @@
+{% extends "base.html" %} 
+
+{% block menu_func_active %}active{% endblock %} 
+
+{% if resultado.entidades[-1] %}
+    {% set funcionario = resultado.entidades[-1] %}
+{% endif %}
+
+
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+  <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+    <h1 class="display-4">Excluir Cadastro de Funcionário<h1>
+        <p class="lead text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident
+          ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores corporis.
+        </p>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %} 
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+  
+{%block conteudo %}
+<div class="container conteudo">
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados gerais de identificação</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right" href="{{ url_for('bp_funcionario.funcionarios') }}">CANCELAR</a>
+    </div>
+  </div>
+  <!-- <h5 class="h4">Dados gerais de identificação</h5> -->
+  <div class="dropdown-divider"></div>
+  
+  <div class="rounded shadow bg-white px-3 py-3 mb-5">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-foto-func">Foto</label>
+            <input disabled type="file" class="form-control-file" name="foto-func" id="id-foto-func" placeholder=""
+              aria-describedby="fileHelpId">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-cadastro-func">Data do cadastro</label>
+            <input disabled hidden type="text" class="form-control" name="data-cadastro-func" id="id-data-cadastro-func"
+              {% if funcionario.dataCadastro %} value="{{ funcionario.dataCadastro.strftime('%d/%m/%Y')}}" {% endif %}>
+            <input disabled disabled type="text" class="form-control" {% if funcionario.dataCadastro %} value="{{ funcionario.dataCadastro.strftime('%d/%m/%Y')}}" {% endif %}>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="status-func">Status</label>
+            <input disabled type="text" class="form-control" name="status-func" id="status-func" 
+              aria-describedby="helpId" value="{{ funcionario._status.nome }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"> 
+          <div class="form-group">
+            <label for="id-cpf-funcionario">CPF*</label>
+            <input disabled type="text" class="form-control" name="cpf-func" 
+            id="id-cpf-funcionario" placeholder="___.___.___-__" value="{{ funcionario.cpf }}"/>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="id-nome-funcionario">Nome</label>
+            <input disabled type="text" class="form-control" name="nome-func" 
+            id="id-nome-funcionario" aria-describedby="helpId" placeholder="" value="{{ funcionario.nome }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-sexo-func">Sexo</label>
+            <select disabled class="custom-select" name="sexo-func" id="id-sexo-func">
+              {% if funcionario.sexo == 'masculino' %}
+                <option>Selecione</option>
+                <option selected value="masculino">MASCULINO</option>
+                <option value="feminino">FEMININO</option>
+              {% elif funcionario.sexo == 'feminino' %}
+                <option>Selecione</option>
+                <option value="masculino">MASCULINO</option>
+                <option selected value="feminino">FEMININO</option>
+              {% else %}
+                <option selected>Selecione</option>
+                <option value="masculino">MASCULINO</option>
+                <option value="feminino">FEMININO</option>
+              {% endif %}
+            </select>
+          </div>  
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-nasc-func">Data de Nascimento</label>
+            <input disabled type="text" class="form-control" name="data-nasc-func" id="id-data-nasc-func"
+              {% if funcionario.dataNascimento %} value="{{ funcionario.dataNascimento.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>       
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-pis-func">PIS</label>
+            <input disabled type="text" class="form-control" name="pis-pasep-func" id="id-pis-func" 
+              aria-describedby="helpId" value="{{ funcionario.pisPasep }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="rg-func">RG</label>
+            <input disabled type="text" class="form-control" name="rg-func" id="rg-func"
+              aria-describedby="helpId" value="{{ funcionario.rg }}">
+          </div>
+        </div>      
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-email-func">E-mail</label>
+            <input disabled type="email" class="form-control" name="email-func" 
+            id="id-email-func" aria-describedby="emailHelpId" value="{{ funcionario.email }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-reponsavel-cad-func">Responsável pelo cadastro</label>
+            <input disabled hidden type="text" class="form-control" name="reponsavel-cad-func" id="id-reponsavel-cad-func"
+              aria-describedby="helpId" value="{{ funcionario.responsavelCadastro }}">
+            <input disabled disabled type="text" class="form-control" {% if funcionario.responsavelCadastro %} value="{{ funcionario.responsavelCadastro }}"{% endif %}>
+          </div>
+        </div>
+      </div>
+      <h5 class="h4 mt-3">Dados de contratação</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-matricula-func">Matricula</label>
+            <input disabled type="text" class="form-control" name="matricula-func" id="id-matricula-func" aria-describedby="helpId"
+              value="{{ funcionario.matricula }}">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="id-cargo-func">Cargo</label>
+            <input disabled type="text" class="form-control" name="cargo-func" 
+            id="id-cargo-func" aria-describedby="helpId" value="{{ funcionario.cargo.nome|e }}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="id-data-admissao-func">Data da admissão</label>
+            <input disabled type="text" class="form-control" name="data-admissao-func" id="id-data-admissao-func"
+              {% if funcionario.dataAdmissao %} value="{{ funcionario.dataAdmissao.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-lotacao-func">Lotação</label>
+            <input disabled type="text" class="form-control" name="lotacao-func" 
+            id="id-lotacao-func" aria-describedby="helpId" value="{{ funcionario.lotacao }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-unidade-trabalho-func">Unidade de trabalho</label>
+            <input disabled type="text" class="form-control" name="unidade-trabalho-func" 
+            id="id-unidade-trabalho-func" aria-describedby="helpId" value="{{funcionario.unidadeDeTrabalho}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-numero-ctps-func">Número CTPS</label>
+            <input disabled type="text" class="form-control" name="numero-ctps-func" 
+            id="id-numero-ctps-func" aria-describedby="helpId" value="{{ funcionario.numeroCTPS }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-ctps-func">Série CTPS</label>
+            <input disabled type="text" class="form-control" name="serie-ctps-func" 
+            id="id-ctps-func" aria-describedby="helpId" value="{{ funcionario.serieCTPS }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-uf-ctps-func">UF CTPS</label>
+            <input disabled type="text" class="form-control" name="uf-ctps-func" 
+            id="id-uf-ctps-func" aria-describedby="helpId" value="{{ funcionario.ufCTPS }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-data-emissao-ctps-func">Data emissão CTPS</label>
+            <input disabled type="text" class="form-control" name="data-emissao-ctps-func" id="id-data-emissao-ctps-func" 
+              {% if funcionario.dataEmissaoCTPS %} value="{{ funcionario.dataEmissaoCTPS.strftime('%d/%m/%Y') }}"{% endif %}>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-tipo-vinculo-func">Tipo de vínculo</label>
+            <input disabled type="text" class="form-control" name="id-tipo-vinculo-func" id="id-tipo-vinculo-func" value="{{ funcionario._tipo_vinculo.nome }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id-nome-usuario-func">Nome de usuário</label>
+            <input disabled type="text" class="form-control" name="nome-usuario-func" id="id-nome-usuario-func" aria-describedby="helpId"
+              value="{{ funcionario.nomeUsuario }}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id-senha-usuario-func">Senha</label>
+            <input disabled type="text" class="form-control" name="senha-usuario-func" id="id-senha-usuario-func" aria-describedby="helpId"
+              value="{{ funcionario.senha }}">
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input type="text" hidden name="funcionario_id" value="{{ funcionario.id }}">
+          <button type="submit" name="operacao" id="id-excluir" class="btn btn-danger float-right" value="EXCLUIR"><i class="fa fa-trash-o" aria-hidden="true"></i> EXCLUIR</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}
+<!-- conteudo -->

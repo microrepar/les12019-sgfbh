@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block menu_solicitacoes_active %}active{% endblock %}
+
+
+{% set funcionario = resultado.entidades[-1] %}
+
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+        
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Solicitações<h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam
+              aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas
+              voluptatum?
+            </p>
+        </div>
+
+        
+        <div class="row d-flex align-items-baseline">
+          <div class="col">
+            <h5 class="h4 mb-0">Filtro</h5>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-consulta">
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="id-numero-matricula">Matricula:</label>
+                <input type="number" class="form-control" id="id-numero-matricula" min="1"
+                  value="{{ funcionario.matricula }}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for="id-nome-funcionario">Nome do Funcionário:</label>
+                <input type="text" class="form-control" id="id-nome-funcionario" value="{{ funcionario.nome }}">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="txt-funcionario-cargo">Cargo:</label>
+                <input type="text" class="form-control" id="txt-funcionario-cargo" value="{{ funcionario.cargo.nome }}">
+              </div>
+            </div>
+          </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+          
+
+          <div class="row row3-formulario-consulta mb-3">
+            <div class="col-12 col-row3-formulario-consulta">
+              <div class="card border-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#maisDetalhes" role="button"
+                  aria-expanded="false" aria-controls="maisDetalhes">
+                  <h5 class="card-header cor-base1 text-white rounded">Mais Detalhes</h5>
+                </a>
+                <div class="collapse" id="maisDetalhes">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg">
+                        <div class="form-group">
+                          <label for="id-periodo-de">Período de:</label>
+                          <input class="form-control" type="date" name="periodo-de" id="id-periodo-de">
+                        </div>
+                        <div class="form-group">
+                          <label for="id-periodo-ate">Até:</label>
+                          <input class="form-control" type="date" name="periodo-ate" id="id-periodo-ate">
+                        </div>
+                        <div class="form-group">
+                          <label for="id-mes-ref-frequencia">Mês de Referência:</label>
+                          <select class="form-control" name="id-mes-ref-frequencia" id="id-mes-ref-frequencia">
+                            <option></option>
+                            <option>Janeiro</option>
+                            <option>Fevereiro</option>
+                            <option>Março</option>
+                            <option>Abril</option>
+                            <option>Maio</option>
+                            <option>Junho</option>
+                            <option>Julho</option>
+                            <option>Agosto</option>
+                            <option>Outubro</option>
+                            <option>Novembro</option>
+                            <option>Dezembro</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="id-status-func">Por Status da Solicitação</label>
+                          <input class="form-control" list="id-status-func" name="status-func">
+                          <datalist id="id-status-func">
+                            <option value="Abonado">
+                            <option value="Deferido">
+                            <option value="Descontado">
+                            <option value="Indeferido">
+                            <option value="Injustificado">
+                            <option value="Pendente">
+                          </datalist>
+                        </div>
+                        <div class="form-group">
+                          <label for="date">Ordenação</label>
+                          <select class="form-control" name="ordem">
+                            <option value=""></option>
+                            <option value="data">Por Data</option>
+                            <option value="ano">Por Status</option>
+                            <option value="numero">Por Pendência</option>
+                            <option value="nome">Por Usuário</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="id-ano-ref-frequencia">Ano Referência</label>
+                          <input type="number" class="form-control" name="ano-ref-frequencia" min="2000"
+                            id="id-ano-ref-frequencia" aria-describedby="helpId" placeholder="">
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-group">
+                          <label for="id-lotacao-func">Por Tipo</label>
+                          <input class="form-control" list="id-lotacao-func" name="lotacao-func">
+                          <datalist id="id-lotacao-func">
+                            <option value="ATRASO">
+                            <option value="FALTA Integral">
+                            <option value="LICENÇA SAÚDE">
+                            <option value="Hora Extra">
+                            <option value="NMPTO">
+                            <option value="NMPTO Integral">
+                          </datalist>
+                        </div>
+                        <div class="form-group">
+                          <label for="id-ocorrencia-frequencia">Solicitações</label>
+                          <select class="custom-select" name="id-ocorrencia-frequencia" id="id-ocorrencia-frequencia">
+                            <option selected value="todos">Todas</option>
+                            <option value="com">Com Decisão</option>
+                            <option value="sem">Sem Decisão</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div><!-- coluna row3-formulario-consulta -->
+          </div><!-- row3-formulario-consulta segunda linha do formulário de consulta -->
+          <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+              Filtrar</button>
+          <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+              Limpar</button>
+        </form>
+        <!-- fim form consulta funcionário -->
+        
+        <div class="preview-solicitacoes my-5">
+          <div class="solicitacoes mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="solicitacoesCollapse">
+              <h5 class="h4" id="id-titulo-pendencias">Solicitações</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+        
+            <div class="rounded shadow">
+              <div class="card border-0 pb-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#solicitacoesCollapse" role="button"
+                  aria-expanded="false" aria-controls="solicitacoesCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE SOLICITAÇÕES</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="solicitacoesCollapse">
+                  <div class="card-body ">
+                    <div class="table-responsive ">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th class="">Ações</th>
+                            <th class="">Nº</th>
+                            <th class="text-nowrap">Data solicitação</th>
+                            <th class="text-center">Pendência</th>
+                            <th class="text-center">Usuário</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Decisão</th>
+                            <th class="text-center">Data</th>
+                            <th class="text-center">Decisor</th>
+                            <th class="text-center">Observação</th>
+                          </tr>
+                        </thead>
+        
+                        <tbody>
+                          {% for espelho_diario in funcionario.espelhos_diarios %}
+                            {% for ocorrencia in espelho_diario.ocorrencias %}
+                              {% for solicitacao in ocorrencia.solicitacoes %}
+                              <tr>        
+                                <td class="text-nowrap align-middle">
+                                  <a href="{{ url_for('bp_solicitacao.atualizar_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-ATUALIZAR') }}" 
+                                    class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                  <a href="{{ url_for('bp_solicitacao.excluir_solicitacao', txt_solicitacao_id=solicitacao.id, operacao='PRE-EXCLUIR') }}" 
+                                    class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                </td>
+                                <td class="text-nowrap align-middle text-center">{{ ocorrencia.id|e }}</td>
+                                <td class="align-middle">{{ solicitacao.data_cadastro_formatada|e }}</td>
+                                <td class="text-center text-nowrap align-middle"><a href="#id-titulo-resultado">{{ocorrencia.pendencia.sigla|e}}</a></td>
+                                <td class="text-center align-middle">{{ solicitacao.responsavel_cadastro|e }}</td>
+                                <td class="text-center align-middle">{{ solicitacao.status.nome|e }}</td>
+                                {% if solicitacao.despacho %}
+                                  <td class="text-center align-middle">{{ solicitacao.despacho.decisao.nome }}</td>
+                                  <td class="text-center align-middle">{{ solicitacao.despacho.responsavel_cadastro }}</td>
+                                  <td class="text-center align-middle">{{ solicitacao.despacho.data_cadastro_formatada }}</td>
+                                {% else %}
+                                  <td class="text-center align-middle text-nowrap">sem despacho</td>
+                                  <td class="text-center align-middle text-nowrap"></td>
+                                  <td class="text-center align-middle text-nowrap"></td>
+                                {% endif %}
+                                <td class="align-middle text-nowrap">{{ solicitacao.descricao|e }}</td>
+                              </tr>
+                              {% endfor %}
+                            {% endfor %}
+                          {% endfor %}
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="10"></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col">
+                        <a class="btn btn-primary float-right" href="{{ url_for('bp_ocorrencia.ocorrencias_funcionario', txt_funcionario_id=28, operacao='FILTRAR') }}">SOLICITAR</a>
+                      </div>
+                    </div>
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- conteudo-principal -->
+      
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+

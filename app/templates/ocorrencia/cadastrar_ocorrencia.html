@@ -1,0 +1,680 @@
+{% extends "base.html" %} 
+
+{% block menu_frequencias_active %}active{% endblock %}
+
+
+{% set ocorrencia = resultado.entidades[-1] %}
+
+
+{% block tituloConteudo %}
+<div class="container titulo-conteudo">
+   <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+     <h1 class="display-4">Cadastrar Ocorrência<h1>
+         <p class="lead text-justify">
+           Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident
+           ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores
+           corporis.
+         </p>
+   </div>
+</div>
+{% endblock %}
+
+
+{% block alerta %}
+<div class="container">
+  {{ super() }}
+</div>
+{% endblock %}
+
+
+{%block conteudo %}
+
+<div class="container conteudo">
+  <div class="row  d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados da Frequência Diária</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right"
+        href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-ocorrencias">
+        VOLTAR
+      </a>
+    </div>
+  </div>
+
+  <div class="dropdown-divider"></div>
+
+  <form name="formulario" class="cor-base2 p-3 mb-5 rounded" action="" method="GET">
+    <div class="row row1-formulario-consulta">
+      <div class="col-lg-2">
+        <div class="form-group">
+          <label for="txt-funcionario-matricula">Matricula:</label>
+          <input disabled type="number" class="form-control" name="txt-funcionario-matricula" id="txt-funcionario-matricula" min="1" value="{{ ocorrencia.espelho_diario.funcionario.matricula }}">
+          <input hidden type="number" class="form-control" name="txt-funcionario-matricula" id="txt-funcionario-matricula" min="1" value="{{ ocorrencia.espelho_diario.funcionario.matricula }}">
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="txt-funcionario-nome">Nome do Funcionário:</label>
+          <input disabled type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" value="{{ ocorrencia.espelho_diario.funcionario.nome }}">
+          <input hidden type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" value="{{ ocorrencia.espelho_diario.funcionario.nome }}">
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="txt-funcionario-cargo">Cargo</label>
+          <input disabled type="text" class="form-control" name="txt-funcionario-cargo" id="txt-funcionario-cargo" value="{{ ocorrencia.espelho_diario.funcionario.cargo.nome }}">
+          <input hidden type="text" class="form-control" name="txt-funcionario-cargo" id="txt-funcionario-cargo" value="{{ ocorrencia.espelho_diario.funcionario.cargo.nome }}">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group">
+          <label for="txt-espelho-diario-data">Data Referência</label>
+          <input disabled type="text" class="form-control" id="txt-espelho-diario-data" value="{{ ocorrencia.espelho_diario.data_formatada }}">
+          <input hidden type="text" class="form-control" id="txt-espelho-diario-data" value="{{ ocorrencia.espelho_diario.data_formatada }}">
+        </div>
+      </div>
+    </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-hover ">
+          <thead>
+            <tr>
+              <th class="text-nowrap"></th>
+              <th class="text-nowrap">Data</th>
+              <th class="text-nowrap">Dia da semana</th>
+              <th class="text-nowrap">Tipo</th>
+              <th class="text-nowrap">Hr1</th>
+              <th class="text-nowrap">Rel1</th>
+              <th class="text-nowrap">Hr2</th>
+              <th class="text-nowrap">Rel2</th>
+              <th class="text-nowrap">Hr3</th>
+              <th class="text-nowrap">Rel3</th>
+              <th class="text-nowrap">Hr4</th>
+              <th class="text-nowrap">Rel4</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for horario_dia in ocorrencia.escala.horarios_dia if horario_dia.dia_semana|e == ocorrencia.espelho_diario.dia_semana|e  %}             
+            <tr>
+              <th scope="row">Esperado</th>
+              <td scope="row">{{ocorrencia.espelho_diario.data_formatada|e}}</td>
+              <td>{{horario_dia.dia_semana|e}}</td>
+              <td class="text-nowrap align-middle">não definido</td>
+              <td class="align-middle font-weight-bold">{{ horario_dia.hora_ponto1 }}</td>
+              <td class="align-middle"></td>              
+              <td class="align-middle font-weight-bold">{{ horario_dia.hora_ponto2 }}</td>
+              <td class="align-middle"></td>              
+              <td class="align-middle font-weight-bold">{{ horario_dia.hora_ponto3 }}</td>
+              <td class="align-middle"></td>              
+              <td class="align-middle font-weight-bold">{{ horario_dia.hora_ponto4 }}</td>
+              <td class="align-middle"></td>              
+            </tr>            
+            {% else %}
+            <tr>
+              <td colspan="12" class="text-center">NÃO FOI ENCONTRADO REGISTRO HORÁRIOS DA ESCALA PARA ESSE DIA</td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <th scope="row">Realizado</th>
+              <td scope="row">{{ocorrencia.espelho_diario.data_formatada|e}}</td>
+              <td>{{ocorrencia.espelho_diario.dia_semana|e}}</td>
+              <td class="text-nowrap align-middle">não definido</td>
+              {% for ponto in ocorrencia.espelho_diario.pontos|sort(attribute='data_hora') if ponto.incluir %}
+              <td class="align-middle font-weight-bold">{{ ponto.hora_formatada }}</td>
+              <td class="align-middle">{{ponto.relogio}}</td>
+              {% endfor %}
+              {% for _ in range(4 - ocorrencia.espelho_diario.qtde_pontos_incluidos) %}
+              <td class="align-middle"></td>
+              <td class="align-middle"></td>
+              {% endfor %}
+            </tr>            
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="12"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </form>
+
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0" id="titulo-ocorrencia">Ocorrência</h5>
+    </div>
+    <!-- <div class="col ">
+      <a class="btn btn-primary float-right" href="">VOLTAR</a>
+    </div> -->
+  </div>
+  <div class="dropdown-divider"></div>  
+  
+  <div class="rounded shadow bg-white px-3 pt-3 pb-1 mb-5">
+    <form action="" method="post">
+      <div class="row d-flex align-items-center">
+        <div class="col-4">           
+          <div class="form-group">
+            <label for="txt-ocorrencia-pendencia" class="my-0">
+              <button type="submit" class="btn btn-warning btn-sm py-0 my-1" formaction="{{ url_for('bp_ocorrencia.cadastrar_ocorrencia') }}#titulo-ocorrencia" formmethod="POST" name="operacao"
+                value="PRE-SALVAR" id="btn-ocorrencia-pendencia"><i class="fa fa-search" aria-hidden="true"></i></i></button>
+              Pendência *</label>
+            <select autofocus class="custom-select" name="txt-ocorrencia-pendencia" id="txt-ocorrencia-pendencia" onchange="especificarPendencia()">
+              <option value="">Selecione uma pendência</option>
+              {% for pendencia in ocorrencia._lista_pendencias %}
+                {% if pendencia.id|e == ocorrencia.pendencia.id|e %}
+                  <option selected value="{{ pendencia.id|e }}">{{ pendencia.nome|e }}</option>                  
+                {% else %}
+                  <option value="{{ pendencia.id|e }}">{{ pendencia.nome|e }}</option>                  
+                {% endif %}                
+              {% else %}
+                <option value="">NENHUM REGISTRO ENCONTRADO</option>
+              {% endfor %}
+            </select>
+          </div>          
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-periodo">Período *</label>
+            <select class="custom-select" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo">
+              <option selected>Selecione o período</option>
+              {% for periodo in ocorrencia._lista_periodos %}
+                {% if periodo.id|e == ocorrencia.periodo.id|e  %}
+                  <option selected value="{{ periodo.id|e }}">{{ periodo.momento }} {{ periodo.nome|e }}</option>
+                {% else %}
+                  <option value="{{ periodo.id|e }}">{{ periodo.momento }} {{ periodo.nome|e }}</option>
+                {% endif %}                
+              {% else %}
+                <option value="">NENHUM REGISTRO ENCONTRADO</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>        
+        <div class="col-2">
+          <div class="form-group">
+            <label for="txt-ocorrencia-quantidade_horas">Total Horas *</label>
+            <input type="text" class="form-control" name="txt-ocorrencia-quantidade_horas" id="txt-ocorrencia-quantidade_horas"
+              placeholder="Sujerido-> 0.0" value="{{ ocorrencia.quantidade_horas }}">
+          </div>
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+          <div class="form-check >
+            <label class=" form-check-label">
+            <input type="checkbox" class="form-check-input" name="txt-ocorrencia-cobranca" id="txt-ocorrencia-cobranca" value="1" checked>
+            Cobrança
+            </label>
+          </div>
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_inicio">Data início *</label>
+            <input type="text" class="form-control data" name="txt-ocorrencia-data_inicio" id="txt-ocorrencia-data_inicio"
+              placeholder="__/__/____" value="{{ ocorrencia.data_inicio_formatada }}">
+          </div>
+        </div>        
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_fim">Data fim *</label>
+            <input type="text" class="form-control data" name="txt-ocorrencia-data_fim" id="txt-ocorrencia-data_fim"
+              placeholder="__/__/____" value="{{ ocorrencia.data_fim_formatada }}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-status">Status</label>
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status" value="{{ ocorrencia.status.id }}">
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status" value="{{ ocorrencia.status.nome }}">
+          </div>
+        </div>
+      </div>      
+      <div class="row">
+        <div class="col-4">        
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_cadastro">Data do Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-data_cadastro" id="txt-ocorrencia-data_cadastro" value="{{ ocorrencia.data_cadastro_formatada }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-data_cadastro" id="txt-ocorrencia-data_cadastro" value="{{ ocorrencia.data_cadastro_formatada }}">
+          </div>        
+        </div>
+        <div class="col">        
+          <div class="form-group">
+            <label for="txt-ocorrencia-responsaval_cadastro">Responsável pelo Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-responsaval_cadastro" id="txt-ocorrencia-responsaval_cadastro" value="{{ ocorrencia.responsavel_cadastro }}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-responsaval_cadastro" id="txt-ocorrencia-responsaval_cadastro" value="{{ ocorrencia.responsavel_cadastro }}">
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-ocorrencia-observacao">Observação *</label>
+            <textarea class="form-control" name="txt-ocorrencia-observacao" id="txt-ocorrencia-observacao" rows="3">{{ ocorrencia.observacao }}</textarea>
+          </div>
+        </div>
+      </div>      
+      <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input hidden type="text" name="txt_ocorrencia_id" id="txt_ocorrencia_id" value="{{ ocorrencia.id }}">
+          <input hidden type="text" name="txt_espelho_diario_id" id="txt_espelho_diario_id" value="{{ ocorrencia.espelho_diario.id }}">
+          <button type="submit" class="btn btn-primary float-right ml-1" name="operacao" formaction="{{ url_for('bp_ocorrencia.cadastrar_ocorrencia') }}" value="SALVAR"> <i class="fa fa-save"></i> SALVAR</button>
+          <a class="btn btn-primary float-right"
+            href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-ocorrencias">
+            VOLTAR
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+  <div class="row d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Informações da pendência</h5>
+    </div>
+    <!-- <div class="col ">
+      <a class="btn btn-primary float-right" href="">VOLTAR</a>
+    </div> -->
+  </div>
+  <div class="dropdown-divider"></div>  
+  
+  <div class="rounded shadow bg-white px-3 pt-3 pb-1 mb-5">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-2"> 
+          <div class="form-group">
+            <label for="txt-pendencia-codigo">Código</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-codigo" id="txt-pendencia-codigo" value="{{ ocorrencia.pendencia.codigo|e }}">
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="form-group">
+            <label for="txt-pendencia-nome">Nome da Pendência</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-nome" id="txt-pendencia-nome" value="{{ ocorrencia.pendencia.nome|e }}">
+          </div>
+        </div> 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-pendencia-sigla">Sigla </label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-sigla" id="txt-pendencia-sigla" value="{{ ocorrencia.pendencia.sigla|e }}">
+          </div>
+        </div>
+    
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">        
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-pendencia-tipo">Tipo</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-tipo" id="txt-pendencia-tipo" value="{{ ocorrencia.pendencia.tipo.nome|e }}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-pendencia-prazo_pagamento">Prazo pagamento</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-prazo_pagamento" id="txt-pendencia-prazo_pagamento" 
+              value="{{ ocorrencia.pendencia.prazo_pagamento_dias|e }}" placeholder="prazo em dias">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-pendencia-limite_maximo_horas">Limite de horas </label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-limite_maximo_horas" 
+              value="{{ ocorrencia.pendencia.limite_maximo_horas|e }}" id="txt-pendencia-limite_maximo_horas">
+          </div>
+        </div>
+          
+      </div>      
+      <div class="row">
+        <div class="col-4">        
+          <div class="form-group">
+            <label for="txt-pendencia-data_cadastro">Data do Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-data_cadastro" id="txt-pendencia-data_cadastro" value="{{ ocorrencia.pendencia.data_cadastro_formatada }}">
+            <input hidden type="text" class="form-control" name="txt-pendencia-data_cadastro" id="txt-pendencia-data_cadastro" value="{{ ocorrencia.pendencia.data_cadastro_formatada }}">
+          </div>        
+        </div>
+        <div class="col">        
+          <div class="form-group">
+            <label for="txt-pendencia-responsavel_cadastro">Responsável pelo Cadastro</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-responsavel_cadastro" id="txt-pendencia-responsavel_cadastro" value="{{ ocorrencia.pendencia.responsavel_cadastro }}">
+            <input hidden typess="form-control" name="txt-pendencia-responsavel_cadastro" id="txt-pendencia-responsavel_cadastro" value="{{ ocorrencia.pendencia.responsavel_cadastro }}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-pendencia-status">Status</label>
+            <input disabled type="text" class="form-control" name="txt-pendencia-status" id="txt-pendencia-status" value="{{ ocorrencia.status.nome }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-pendencia-descricao">Descrição </label>
+            <textarea disabled class="form-control" name="txt-pendencia-descricao" id="txt-pendencia-descricao" rows="3">{{ ocorrencia.descricao }}</textarea>
+          </div>
+        </div>
+      </div>      
+      <!-- <div class="row mb-3 d-flex justify-content-end">   
+        <div class="col ">
+          <input hidden type="text" name="txt_pendencia_id" id="txt_pendencia_id" value="">
+          <button type="submit" class="btn btn-primary float-right" name="operacao" 
+           formaction="" value="SALVAR"> <i class="fa fa-save"></i> SALVAR</button>
+        </div>
+      </div> -->
+    </form>
+  </div>
+
+  {# 
+  BLOCO PARA SER UTILIZADO NA ATUALIZAÇÃO E VISUALIZAÇÃO DE OCORRÊNCIAS 
+
+
+  <div class="preview-solicitacoes my-5">
+    <div class="solicitacoes mb-5">
+      <div class="row d-flex align-items-baseline">
+        <div class="col">
+          <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+            aria-controls="solicitacoesCollapse">
+            <h5 class="h4 mb-0" id="id-titulo-pendencias">Solicitações</h5>
+          </a>
+        </div>
+        <!-- <div class="col ">
+                <a class="btn btn-primary float-right"
+                  href="">
+                  VOLTAR
+                </a>
+              </div> -->
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <div class="rounded shadow">
+        <div class="card border-0 ">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#solicitacoesCollapse" role="button"
+            aria-expanded="false" aria-controls="solicitacoesCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE SOLICITAÇÕES</h6>
+          </a>
+          <div class="collapse multi-collapse0 show" id="solicitacoesCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th class="">Ações</th>
+                      <th class="">Nº</th>
+                      <th class="text-nowrap">Data solicitação</th>
+                      <th>Pendência</th>
+                      <th>Usuário</th>
+                      <th>Status</th>
+                      <th>Observação</th>
+                      <th>Decisão</th>
+                      <th>Data</th>
+                      <th>Decisor</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="text-nowrap align-middle">
+                        <a href="#id-titulo-pendencias" class="btn btn-primary"><i class="fa fa-pencil fa-1x"
+                            aria-hidden="true"></i></a>
+                        <a href="#id-titulo-pendencias" class="btn btn-danger"><i class="fa fa-reply"
+                            aria-hidden="true"></i></a>
+                      </td>
+                      <td class="text-nowrap align-middle">1</td>
+                      <td class="align-middle">25/02/2019</td>
+                      <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">NMPTO</a></td>
+                      <td class="align-middle">sistema</td>
+                      <td class="align-middle">Injustificado</td>
+                      <td class="align-middle">NMPTO entrada do 1º período</td>
+                      <td class="align-middle">Injustificar efeutando os descontos</td>
+                      <td class="align-middle">25/02/2019</td>
+                      <td class="align-middle">sistema</td>
+                    </tr>
+                    <tr>
+                      <td class="text-nowrap align-middle">
+                        <a href="#id-titulo-pendencias" class="btn btn-primary"><i class="fa fa-pencil fa-1x"
+                            aria-hidden="true"></i></a>
+                        <a href="#id-titulo-pendencias" class="btn btn-danger"><i class="fa fa-reply"
+                            aria-hidden="true"></i></a>
+                      </td>
+                      <td class="text-nowrap align-middle">2</td>
+                      <td class="align-middle">28/02/2019</td>
+                      <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">HORA EXTRA</a></td>
+                      <td class="align-middle">g.jones</td>
+                      <td class="align-middle">Pendente</td>
+                      <td class="align-middle">Indicação de horas para pagamento em pecúnia</td>
+                      <td class="align-middle"></td>
+                      <td class="align-middle"></td>
+                      <td class="align-middle"></td>
+                    </tr>
+                    <tr>
+                      <td class="text-nowrap align-middle">
+                        <a href="#id-titulo-pendencias" class="btn btn-primary"><i class="fa fa-pencil fa-1x"
+                            aria-hidden="true"></i></a>
+                        <a href="#id-titulo-pendencias" class="btn btn-danger"><i class="fa fa-reply"
+                            aria-hidden="true"></i></a>
+                      </td>
+                      <td class="text-nowrap align-middle">3</td>
+                      <td class="align-middle">28/02/2019</td>
+                      <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">BANCO DE HORAS</a></td>
+                      <td class="align-middle">g.jones</td>
+                      <td class="align-middle">Pendente</td>
+                      <td class="align-middle">Indicação de horas para pagamento em banco de horas</td>
+                      <td class="align-middle"></td>
+                      <td class="align-middle"></td>
+                      <td class="align-middle"></td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="">
+                      <td colspan="10"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col mt-2">
+                  <a class="btn btn-primary float-right"
+                    href="">SOLICITAR</a>
+                  <a class="btn btn-primary float-right mr-1"
+                    href="">
+                    VOLTAR
+                  </a>
+                </div>
+              </div>
+
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+  #}
+
+
+  {#
+  <div class="preview-pendencias my-5">
+    <div class="pendencias mb-5">
+      <div class="row  d-flex align-items-baseline">
+        <div class="col">
+          <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+            aria-controls="pendenciasCollapse">
+            <h5 class="h4 mb-0" id="id-titulo-ocorrencias">Ocorrências</h5>
+          </a>
+        </div>
+        <div class="col ">
+          <a class="btn btn-primary float-right"
+            href="">
+            VOLTAR
+          </a>
+        </div>
+      </div>
+      
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded shadow">
+        <div class="card border-0 pb-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#ocorrenciasCollapse" role="button"
+            aria-expanded="false" aria-controls="ocorrenciasCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DAS OCORRÊNCIAS LANÇADAS</h6>
+          </a>
+          <div class="collapse multi-collapse0 show" id="ocorrenciasCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th class="">Ações</th>
+                      <th class="">ID</th>
+                      <th class="text-nowrap">Data inclusão</th>
+                      <th>Pendência</th>
+                      <th>Usuário</th>
+                      <th>Status</th>
+                      <th>Observação</th>
+                      <th>Cobrança</th>
+                      <th>Desc. Horas</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <tr>        
+                      <td class="text-nowrap align-middle">
+                        <a href="#id-titulo-pendencias" class="btn btn-primary"><i class="fa fa-pencil fa-1x" aria-hidden="true"></i></a>
+                        <a href="#id-titulo-pendencias" class="btn btn-danger"><i class="fa fa-trash-o fa-1x" aria-hidden="true"></i></a>
+                      </td>
+                      <td class="text-nowrap align-middle">1</td>
+                      <td class="align-middle">25/02/2019</td>
+                      <td class="text-nowrap align-middle"><a href="#id-titulo-resultado">NMPTO_S_2P</a></td>
+                      <td class="align-middle">sistema</td>
+                      <td class="align-middle">Ativo</td>
+                      <td class="align-middle">Adicionado automaticamente pelo sistema</td>
+                      <td class="align-middle text-center">
+                        <div class="form-check">
+                          <input checked class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
+                        </div>
+                      </td>
+                      <td class="align-middle">4.0 </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="">
+                      <td colspan="10"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col mt-2">
+                  <a class="btn btn-primary float-right" href=""><i class="fa fa-plus-circle" aria-hidden="true"></i> ADICIONAR</a>
+                  <a class="btn btn-primary float-right mr-1"
+                    href="">
+                    VOLTAR
+                  </a>
+                </div>
+              </div>
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show-->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+  #}
+  
+  {# 
+  <div class="preview-horario my-5">
+    <div class="horario mb-5">
+      <a data-toggle="collapse" href=".multi-collapse3" role="button" aria-expanded="false"
+        aria-controls="horarioCollapse">
+        <h5 class="h4" id="id-titulo-horarios">Horários</h5>
+      </a>
+      <div class="dropdown-divider"></div>
+  
+      <div class="rounded mb-1 shadow">
+        <div class="card border-0">
+          <a class="btn p-0 text-left" data-toggle="collapse" href="#horarioCollapse" role="button"
+            aria-expanded="false" aria-controls="horarioCollapse">
+            <h6 class="card-header cor-base2 rounded">LISTA DE HORÁRIOS DA ESCALA </h6>
+          </a>
+          <div class="collapse multi-collapse3 show" id="horarioCollapse">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Ações</th>
+                      <th class="text-center">Data Inclusão</th>
+                      <th class="text-center">Dias da Semana</th>
+                      <th class="text-center">1º MPTO</th>
+                      <th class="text-center">2º MPTO</th>
+                      <th class="text-center">3º MPTO</th>
+                      <th class="text-center">4º MPTO</th>
+                      <th class="text-center">Status</th>                      
+                    </tr>
+                  </thead>
+  
+                  <body>
+                    {% for horario in [] %}
+                    <tr>
+                      <td class="d-flex justify-content-left text-center">
+                        <a class="btn btn-primary mr-1" 
+                          href="{{ url_for('bp_escala.atualizar_horario', txt_horario_trabalho_diario_id=horario.id, operacao='PRE-ATUALIZAR') }}">
+                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <form action="{{ url_for('bp_escala.cadastrar_horario') }}" method="post">
+                          <input hidden type="text" name="txt_horario_trabalho_diario_id" id="txt_horario_trabalho_diario_id" value="{{ horario.id }}">
+                          <input hidden type="text" name="txt_escala_id" id="txt_escala_id" value="{{ escala.id }}">
+                          <button type="submit" class="btn btn-success" name="operacao" value="CLONAR"><i class="fa fa-clone" aria-hidden="true"></i></button>
+                        </form>
+                        <a class="btn btn-danger mx-1" 
+                          href="{{ url_for('bp_escala.excluir_horario', txt_horario_trabalho_diario_id=horario.id, operacao='PRE-EXCLUIR') }}">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                      </td>
+                      <td class="align-middle text-center">{{ horario.data_cadastro_formatada|e }}</td>
+                      <td class="align-middle text-center text-center">{{ horario.dia_semana|e }}</td>
+                      <td class="align-middle text-center">{{ horario.hora_ponto1|e }}</td>
+                      <td class="align-middle text-center">{{ horario.hora_ponto2|e }}</td>
+                      <td class="align-middle text-center">{{ horario.hora_ponto3|e }}</td>
+                      <td class="align-middle text-center">{{ horario.hora_ponto4|e }}</td>
+                      <td class="align-middle text-center">{{ horario.status.nome|e }}</td>
+                    </tr>
+                    {% endfor %}
+                  </body>
+                  <tfoot>
+                    <tr>
+                      <td colspan="8" class="text-center text-nowrap"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col mt-3">
+                  <a class="btn btn-primary float-right" href="">ADICIONAR</a>
+                </div>
+              </div>
+            </div><!-- card body tipos normativos -->
+          </div><!-- collapse show -->
+        </div><!-- card tipos normativos -->
+      </div>
+    </div>
+  </div>
+  #}
+
+</div>
+{% endblock %}
+<!-- conteudo -->
+
+
+
+{% block scripts %}
+<script>
+  function especificarPendencia() {
+    document.getElementById("btn-ocorrencia-pendencia").click();
+  };
+
+  $('.data').mask('00/00/0000');
+</script>
+{% endblock %}

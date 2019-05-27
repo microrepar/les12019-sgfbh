@@ -1,0 +1,343 @@
+{% extends "base.html" %} 
+
+{% block menu_solicitacoes_active %}active{% endblock %} 
+
+{% set despacho = resultado.entidades[-1] %}
+
+{%block conteudo %}
+<div class="container conteudo mb-5">
+  <div class="jumbotron mb-0 pb-0 px-0 cor-base4">
+    <h1 class="display-4">Despachar Solicitação<h1>
+        <p class="lead text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ipsum alias accusantium laboriosam provident ipsam fuga recusandae quos quaerat similique nemo, repellat eligendi eaque a ab molestias ex maiores corporis.  
+        </p>
+  </div>
+
+  <div class="row  d-flex align-items-baseline">
+    <div class="col">
+      <h5 class="h4 mb-0">Dados gerais de identificação</h5>
+    </div>
+    <div class="col ">
+      <a class="btn btn-primary float-right mr-1"
+        href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=despacho.solicitacao.ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-pendencias">
+        VOLTAR
+      </a>
+    </div>
+  </div>
+  
+  <div class="dropdown-divider"></div>
+  
+  <div class="rounded shadow bg-white px-3 py-3">
+    <form action="" method="post">
+      <div class="row">
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label for="txt-funcionario-matricula">Matricula</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-matricula" id="id-txt-funcionario-matricula" 
+              value="{{despacho.solicitacao.funcionario.matricula}}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-matricula" id="id-txt-funcionario-matricula" 
+              value="{{despacho.solicitacao.funcionario.matricula}}">
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="txt-funcionario-nome">Nome do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{despacho.solicitacao.funcionario.nome}}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-nome" id="txt-funcionario-nome" 
+              value="{{despacho.solicitacao.funcionario.nome}}">
+          </div>
+        </div>
+        <div class="col-lg-5"> 
+          <div class="form-group">
+            <label for="txt-solicitacao-data_cadastro">Cargo</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{despacho.solicitacao.funcionario.cargo.nome}}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{despacho.solicitacao.funcionario.cargo.nome}}">
+          </div>
+        </div>
+      </div><!--fim da primeira .row do form cad func -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-funcionario-locacao">Lotação do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-locacao" id="txt-funcionario-locacao" 
+              value="{{despacho.solicitacao.funcionario.lotacao}}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-locacao" id="txt-funcionario-locacao" 
+              value="{{despacho.solicitacao.funcionario.lotacao}}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-funcionario-unidade_trabalho">Unidade de trabalho do Interessado</label>
+            <input disabled type="text" class="form-control" name="txt-funcionario-unidade_trabalho" id="txt-funcionario-unidade_trabalho"
+              value="{{despacho.solicitacao.funcionario.unidadeDeTrabalho}}">
+            <input hidden type="text" class="form-control" name="txt-funcionario-unidade_trabalho" id="txt-funcionario-unidade_trabalho"
+              value="{{despacho.solicitacao.funcionario.unidadeDeTrabalho}}">
+          </div>
+        </div>
+      </div>
+
+      <h5 class="h4 mt-3">Dados da Ocorrência</h5>
+      <div class="dropdown-divider"></div>
+
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-espelho_dia-data">Data da ocorrência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-espelho_dia-data" id="txt-ocorrencia-espelho_dia-data" 
+              value="{{despacho.solicitacao.ocorrencia.espelho_diario.data_formatada}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-espelho_dia-data" id="txt-ocorrencia-espelho_dia-data" 
+              value="{{despacho.solicitacao.ocorrencia.espelho_diario.data_formatada}}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-pendencia">Pendência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-pendencia" id="txt-ocorrencia-pendencia"
+              value="{{despacho.solicitacao.ocorrencia.pendencia.sigla}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-pendencia" id="txt-ocorrencia-pendencia"
+              value="{{despacho.solicitacao.ocorrencia.pendencia.sigla}}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-periodo">Momento</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{despacho.solicitacao.ocorrencia.periodo.momento}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{despacho.solicitacao.ocorrencia.periodo.momento}}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-periodo">Período</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{despacho.solicitacao.ocorrencia.periodo.nome}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-periodo" id="txt-ocorrencia-periodo"
+              value="{{despacho.solicitacao.ocorrencia.periodo.nome}}">
+          </div>
+        </div>        
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-ocorrencia-status">Status da ocorrência</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status"
+              value="{{despacho.solicitacao.ocorrencia.status.nome}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-status" id="txt-ocorrencia-status"
+              value="{{despacho.solicitacao.ocorrencia.status.nome}}">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label for="txt-ocorrencia-quantidade_horas">Desc_horas</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-quantidade_horas" id="txt-ocorrencia-quantidade_horas"
+              value="{{despacho.solicitacao.ocorrencia.quantidade_horas}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-quantidade_horas" id="txt-ocorrencia-quantidade_horas"
+              value="{{despacho.solicitacao.ocorrencia.quantidade_horas}}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_inicio">Data início</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-data_inicio" id="txt-ocorrencia-data_inicio"
+              value="{{despacho.solicitacao.ocorrencia.data_inicio_formatada}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-data_inicio" id="txt-ocorrencia-data_inicio"
+              value="{{despacho.solicitacao.ocorrencia.data_inicio_formatada}}">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-ocorrencia-data_inicio">Data fim</label>
+            <input disabled type="text" class="form-control" name="txt-ocorrencia-data_fim" id="txt-ocorrencia-data_fim"
+              value="{{despacho.solicitacao.ocorrencia.data_fim_formatada}}">
+            <input hidden type="text" class="form-control" name="txt-ocorrencia-data_fim" id="txt-ocorrencia-data_fim"
+              value="{{despacho.solicitacao.ocorrencia.data_fim_formatada}}">
+          </div>
+        </div>
+      </div>     
+      
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-ocorrencia-obsevacao">Observação da ocorrência</label>
+            <textarea disabled class="form-control" name="txt-ocorrencia-obsevacao" 
+              id="txt-ocorrencia-obsevacao" rows="4">{{despacho.solicitacao.ocorrencia.observacao}}</textarea>
+            <textarea hidden class="form-control" name="txt-ocorrencia-obsevacao" 
+              id="txt-ocorrencia-obsevacao" rows="4">{{despacho.solicitacao.ocorrencia.observacao}}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <h5 class="h4 mt-3">Dados da Solitação</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-solicitacao-data_cadastro">Data do preenchimento</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{despacho.solicitacao.data_cadastro_formatada}}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-data_cadastro" id="txt-solicitacao-data_cadastro"
+              value="{{despacho.solicitacao.data_cadastro_formatada}}">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-solicitacao-responsavel_cadastro">Responsável pelo preechimento</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-responsavel_cadastro" id="txt-solicitacao-responsavel_cadastro"
+              value="{{despacho.solicitacao.responsavel_cadastro}}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-responsavel_cadastro" id="txt-solicitacao-responsavel_cadastro"
+              value="{{despacho.solicitacao.responsavel_cadastro}}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-solicitacao-email_reposponsavel_inclusao">E-mail do Responsável</label>
+            <input disabled type="email" class="form-control" name="txt-solicitacao-email_reposponsavel_inclusao" id="txt-solicitacao-email_reposponsavel_inclusao" 
+              value="{{despacho.solicitacao.email}}">
+            <input hidden type="email" class="form-control" name="txt-solicitacao-email_reposponsavel_inclusao" id="txt-solicitacao-email_reposponsavel_inclusao" 
+              value="{{despacho.solicitacao.email}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-solicitacao-numero">Nº solicitação</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-numero" id="txt-solicitacao-numero"
+              value="{{ despacho.solicitacao.numero }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-numero" id="txt-solicitacao-numero"
+              value="{{ despacho.solicitacao.numero }}">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-despacho-solicitacao-tipo">Tipo de solicitação</label>
+            <input disabled type="text" class="form-control" name="txt-despacho-solicitacao-tipo" id="txt-despacho-solicitacao-tipo"
+              value="{{ despacho.solicitacao.tipo.nome }}">
+            <input hidden type="text" class="form-control" name="txt-despacho-solicitacao-tipo" id="txt-despacho-solicitacao-tipo"
+              value="{{ despacho.solicitacao.tipo.nome }}">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-solicitacao-status">Status</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="{{ despacho.solicitacao.status.nome }}">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="{{ despacho.solicitacao.status.nome }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-solicitacao-descricao">Descrição da solicitação *</label>
+            <textarea disabled class="form-control" name="txt-solicitacao-descricao" id="txt-solicitacao-descricao" rows="4">{{ despacho.solicitacao.descricao }}</textarea>
+            <textarea hidden class="form-control" name="txt-solicitacao-descricao" id="txt-solicitacao-descricao" rows="4">{{ despacho.solicitacao.descricao }}</textarea>
+          </div>
+        </div>
+      </div>
+      {# 
+      <div class="dropdown-divider"></div>
+      <div class="row my-3 d-flex justify-content-end">   
+        <div class="col ">
+          
+          <input hidden type="text" name="txt_despacho_id" id="txt_despacho_id" value="">
+          <input hidden type="text" name="txt_espelho_diario_id" id="txt_espelho_diario_id" value="">
+          <input hidden type="text" name="txt_solicitacao_id" id="txt_solicitacao_id" value="">
+          <input hidden type="text" name="txt_ocorrencia_id" id="txt_ocorrencia_id" value="">
+          <input hidden type="text" name="txt_despacho_id" id="txt_despacho_id" value="">
+          <button type="submit" class="btn btn-primary float-right" name="operacao" value="ATUALIZAR"
+          formaction=""> <i class="fa fa-save"></i> ATUALIZAR</button>
+          <a class="btn btn-primary float-right mr-1"
+            href="#">
+            VOLTAR
+          </a>
+        </div>
+      </div>
+      #}
+      <h5 class="h4 mt-3">Despacho</h5>
+      <div class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="txt-despacho-data_cadastro">Data do despacho</label>
+            <input disabled type="text" class="form-control" name="txt-despacho-data_cadastro" id="txt-despacho-data_cadastro"
+              value="">
+            <input hidden type="text" class="form-control" name="txt-despacho-data_cadastro" id="txt-despacho-data_cadastro"
+              value="">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="txt-despacho-responsavel_cadastro">Responsável pelo despacho</label>
+            <input disabled type="text" class="form-control" name="txt-despacho-responsavel_cadastro" id="txt-despacho-responsavel_cadastro">
+            <input hidden type="text" class="form-control" name="txt-despacho-responsavel_cadastro" id="txt-despacho-responsavel_cadastro">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-despacho-tipo_decisao">Tipo de decisão *</label>
+            <select class="custom-select" name="txt-despacho-tipo_decisao" id="txt-despacho-tipo_decisao">
+              <option value="">Selecione um tipo</option>
+              {% for tipo in despacho._lista_decisoes %}
+                {% if tipo.id|e == despacho.decisao.id|e %}
+                  <option selected value="{{ tipo.id|e }}">{{ tipo.nome|e }}</option>
+                  {% else %}
+                  <option value="{{ tipo.id|e }}">{{ tipo.nome|e }}</option>
+                {% endif %}
+              {% else %}
+              <option value="">Não há registro de decisões</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        {# 
+        <div class="col-4">
+          <div class="form-group">
+            <label for="txt-solicitacao-status">Status</label>
+            <input disabled type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="">
+            <input hidden type="text" class="form-control" name="txt-solicitacao-status" id="txt-solicitacao-status"
+              value="">
+          </div>
+        </div>
+        comment
+        #}
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="txt-despacho-descricao">Observação</label>
+            <textarea class="form-control" name="txt-despacho-descricao" id="txt-despacho-descricao" rows="4"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="row my-3 d-flex justify-content-end">   
+        <div class="col ">
+          
+          <input hidden type="text" name="txt_despacho_id" id="txt_despacho_id" value="{{ despacho.id }}">
+          <input hidden type="text" name="txt_solicitacao_id" id="txt_solicitacao_id" value="{{ despacho.solicitacao.id }}">
+          <input hidden type="text" name="txt_ocorrencia_id" id="txt_ocorrencia_id" value="{{ despacho.solicitacao.ocorrencia.id }}">
+          <input hidden type="text" name="txt_espelho_diario_id" id="txt_espelho_diario_id" value="{{ despacho.solicitacao.ocorrencia.espelho_diario.id }}">
+          <button type="submit" class="btn btn-primary float-right" name="operacao" value="SALVAR"
+          formaction=""> <i class="fa fa-save"></i> SALVAR</button>
+          <a class="btn btn-primary float-right mr-1"
+            href="{{ url_for('bp_frequencia.frequencia_diaria', txt_espelho_diario_id=despacho.solicitacao.ocorrencia.espelho_diario.id, operacao='AVALIAR') }}#id-titulo-pendencias">
+            VOLTAR
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+    
+</div>
+{% endblock %}
+<!-- conteudo -->

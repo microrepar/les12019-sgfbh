@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block menu_bancoDeHoras_active %}active{% endblock %}
+
+
+{% block conteudo %}
+<section class="conteudo container-fluid">
+  <div class="container conteudo-formulario mb-3">
+    <div class="row">
+      <div class="col-md conteudo-principal">
+        <div class="jumbotron text-justify pb-0 px-0 cor-base4">
+          <h1 class="display-4">Banco de Horas<h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, assumenda eius exercitationem ad aperiam
+              aut sequi error quia dolor, dicta nam reprehenderit nisi saepe, cum consequatur nobis quaerat quas
+              voluptatum?
+            </p>
+        </div>
+
+        <div class="row d-flex align-items-baseline">
+          <div class="col">
+            <h5 class="h4 mb-0">Consulta de Saldo</h5>
+          </div>
+          <div class="col ">
+            <a class="btn btn-primary float-right" href="#">RELATÓRIO</a>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <form name="formulario" class="cor-base2 p-3 rounded" action="" method="GET">
+          <div class="row row1-formulario-consulta">
+            <div class="col-lg-7">
+              <div class="form-group">
+                <label for="id-nome-funcionario">Nome do Funcionário:</label>
+                <input type="text" class="form-control" id="id-nome-funcionario" placeholder="Insirá o nome do funcionário">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label for="id-numero-matricula">Matricula:</label>
+                <input type="number" class="form-control" id="id-numero-matricula" min="1" placeholder="Ex: 1001">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label for="id-cpf-funcionario">CPF:</label>
+                <input type="text" class="form-control" id="id-cpf-funcionario">
+              </div>
+            </div>
+          </div><!-- row1-formulario-consulta primeira linha do formulário de consulta -->
+        
+          
+          <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+            Filtrar</button>
+          <button type="reset" class="btn btn-default "><i class="fa fa-eraser" aria-hidden="true"></i>
+            Limpar</button>
+        </form>
+        <!-- fim form consulta funcionário -->
+
+
+        <div class="preview-funcionarios my-5">
+          <div class="funcionarios mb-5">
+            <a data-toggle="collapse" href=".multi-collapse0" role="button" aria-expanded="false"
+              aria-controls="funcionariosCollapse">
+              <h5 class="h4" id="id-titulo-resultado">Resultado</h5>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <div class="rounded shadow">
+              <div class="card border-0">
+                <a class="btn p-0 text-left" data-toggle="collapse" href="#funcionariosCollapse" role="button"
+                  aria-expanded="false" aria-controls="funcionariosCollapse">
+                  <h6 class="card-header cor-base2 rounded">LISTA DE BANCO DE HORAS</h6>
+                </a>
+                <div class="collapse multi-collapse0 show" id="funcionariosCollapse">
+                  <div class="card-body pb-0">
+                    <div class="table-responsive mx-0">
+                      <table class="table mb-0">
+                        <thead>
+                          <tr>
+                            <th>Acões</th>
+                            <th>Matríclua</th>
+                            <th>Nome</th>
+                            <th>Situação</th>
+                            <th>Vínculo</th>
+                            <th>Realizadas</th>                            
+                            <th>Conpensadas</th>                            
+                            <th>Pagas</th>                            
+                            <th>Saldo</th>                            
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a class="btn btn-primary rounded-circle" href="{{ url_for('bp_aplicacao.banco_de_horas_detalhes') }}"><i
+                                  class="fa fa-folder-open fa-1x"></i></a>
+                            </td>
+                            <td>19.000</td>
+                            <td>
+                              <a href="{{ url_for('bp_funcionario.alterar_funcionario') }}">
+                                Gladstone Jones
+                              </a>
+                            </td>
+                            <td>Ativo</td>
+                            <td>C.L.T.</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <button class="btn btn-primary rounded-circle" type="submit" name="operacao" id="operacao" value="" formaction=""><i class="fa fa-folder-open fa-1x"></i></button>
+                            </td>
+                            <td>20.000</td>
+                            <td>
+                              <a href="{{ url_for('bp_funcionario.alterar_funcionario') }}">
+                                Chuck Norris
+                              </a>
+                            </td>
+                            <td>Ativo</td>
+                            <td>C.L.T.</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="">
+                            <td colspan="9" >
+                              <nav aria-label="Page navigation example">
+                                <ul class="pagination d-flex justify-content-center mt-2 mb-0">
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Previous</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#id-titulo-resultado">Next</a></li>
+                                </ul>
+                              </nav>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
+                  </div><!-- card body tipos normativos -->
+                </div><!-- collapse show-->
+              </div><!-- card tipos normativos -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- conteudo-principal -->
+      <!-- <div class="col-md-4 conteudo-secundario px-3 my-3 ">
+              <h5 class="h4">Conteúdo Secundário</h5>
+              <div class="dropdown-divider"></div>
+              <div class="cor-base2 rounded p-3">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis iste sed sapiente, autem
+                      quaerat
+                      dolore voluptatibus beatae ratione nemo reiciendis nam quos, accusantium non accusamus itaque
+                      consequatur
+                      laudantium natus ipsam. </p>
+              </div>
+          </div> -->
+      <!-- conteudo-secundario -->
+    </div>
+  </div>
+</section>
+<!-- conteudo -->
+
+{% endblock %}
+
+
